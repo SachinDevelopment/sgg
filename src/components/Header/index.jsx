@@ -5,15 +5,12 @@ import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useViewport } from "../../context/ViewportProvider";
+import {  Link } from "react-router-dom";
 
 const Header = () => {
   const { user, isAuthenticated } = useAuth0();
   const { width } = useViewport();
   const breakpoint = 560;
-
-  console.log(width);
-
-  console.log("isAuthenticated", isAuthenticated);
 
   return (
     <div
@@ -24,14 +21,10 @@ const Header = () => {
         <div className="text-2xl">S.GG</div>
       </div>
       <div className="flex items-center space-x-2">
-        <div className="flex items-center">
-          <Casino />
-          {width > breakpoint && <div>Randomizer</div>}
-        </div>
-        <div className="flex items-center">
+        <Link className="flex items-center" to="/leaderboard">
           <Assessment />
           {width > breakpoint && <div>Leaderboard</div>}
-        </div>
+        </Link>
       </div>
       <div />
       <div className="h-10">

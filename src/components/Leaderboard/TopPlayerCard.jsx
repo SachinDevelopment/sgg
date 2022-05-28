@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { importAll, wrToRank } from "../../utils";
 import classNames from "classnames";
 import WinrateBar from "./WinrateBar";
+import {  Link } from "react-router-dom";
 const images = importAll(
   require.context("../../../assets/rankIcons", false, /\.svg/)
 );
@@ -15,9 +16,9 @@ const Card = ({ player, ranking }) => {
           <div className="h-6 pl-1 pr-1 bg-blue-900 rounded flex items-center justify-center text-blue-300 text-xl font-bold text-center">
             {ranking}
           </div>
-            <div className="text-xl font-semibold text-blue-400">
+            <Link to={`/player/${player.id}/stats`} className="text-xl font-semibold text-blue-400">
               {player?.name}
-            </div>
+            </Link>
         </div>
         <div className="flex bg-gray-900 p-1 justify-center space-x-2 items-center rounded font-semibold text-xs w-full">
           <div className="w-10">

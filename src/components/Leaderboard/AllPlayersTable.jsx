@@ -2,6 +2,7 @@ import React from "react";
 import { wrToRank } from "../../utils";
 import { importAll } from "../../utils";
 import WinrateBar from "./WinrateBar";
+import {  Link } from "react-router-dom";
 
 const images = importAll(
   require.context("../../../assets/rankIcons", false, /\.svg/)
@@ -28,7 +29,7 @@ export default function AllPlayersTable({ allPlayers }) {
             <tr className={index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}>
               <td className="rounded-l">{index + 4}</td>
               <td>
-                <div to={`/player/${player.id}/stats`}>{player.name}</div>
+                <Link to={`/player/${player.id}/stats`}>{player.name}</Link>
               </td>
               <td className="flex items-center justify-center h-16">
                 <div className="flex items-center space-x-4 w-36">
