@@ -4,10 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Auth0Provider } from "@auth0/auth0-react";
+import { ViewportProvider} from './context/ViewportProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <ViewportProvider>
       <Auth0Provider
     domain="dev-gtsk-v34.us.auth0.com"
     clientId="trbSfyPR4LbS8jEjiDdFpzOhIxw5QHZJ"
@@ -17,6 +19,7 @@ root.render(
   >
     <App />
     </Auth0Provider>
+    </ViewportProvider>
   </React.StrictMode>
 );
 

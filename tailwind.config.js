@@ -3,7 +3,16 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        200: "65rem",
+        150: "26rem",
+      },
+      colors: {
+        darkBlue: "#1D3557",
+        darkRed: "#640D14",
+      },
+    },
   },
-  plugins: [],
+  plugins: [require("tailwind-gradient-mask-image")]
 }
