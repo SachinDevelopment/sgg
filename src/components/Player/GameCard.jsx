@@ -7,9 +7,8 @@ const images = importAll(require.context('../../../assets/champions', false, /\.
 
 function GameCard({ game }) {
     return (
-        <div className={classNames("h-32 flex justify-around space-x-8 p-3", { 'bg-darkBlue': game.winner, 'bg-darkRed': !game.winner })}>
-            <div className="flex items-center justify-start w-1/2">
-                <div className="flex flex-col justify-between flex-1">
+        <div className={classNames("h-32 flex justify-between p-2", { 'bg-darkBlue': game.winner, 'bg-darkRed': !game.winner })}>
+                <div className="flex flex-col justify-between flex-1 text-sm">
                     <div className="font-bold text-gray-200">{game.map}</div>
                     <div className="text-gray-200">{moment(game.date).fromNow()}</div>
                     <div className={classNames("font-semibold text-red-300", { 'text-blue-300': game.winner })}>{game.winner ? `Victory (+${game.ratingChange})` : `Defeat (${game.ratingChange})`}</div>
@@ -17,10 +16,8 @@ function GameCard({ game }) {
                 <div className="flex flex-col justify-center flex-1 items-center p-1">
                     <img className="rounded-full w-14 h-14" alt="" src={images[`${game.myChamp}Square.png`]} />
                     <div className="text-gray-200">{game.myChamp}</div>
-                </div>
             </div>
-            <div className={classNames("hidden items-center justify-between w-1/2 md:flex p-2")}>
-                <div className="flex w-full">
+            <div className={classNames("items-center justify-between space-x-2 flex w-40")}>
                     <div className="flex flex-col flex-1 truncate">
                         {game.blue.map(b =>
                             <div className="flex items-end space-x-1 space-y-1 text-sm text-gray-300 justify-start">
@@ -34,7 +31,6 @@ function GameCard({ game }) {
                                 <img className="w-5 h-5" alt="" src={images[`${r.champ}Square.png`]} />
                                 <div className={classNames({ 'font-bold text-gray-100': r.player === game.playerName })}>{r.player}</div>
                             </div>)}
-                    </div>
                 </div>
             </div>
         </div>

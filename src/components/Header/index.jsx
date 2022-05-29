@@ -16,14 +16,13 @@ const Header = () => {
       variant="dark"
       className="p-2 bg-gray-900 font-semibold flex justify-between"
     >
-      <div className="flex items-center">
-        <div className="text-2xl">S.GG</div>
-      </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center pl-2">
         <Link className="flex items-center" to="/leaderboard">
           <Assessment />
-          {width > breakpoint && <div>Leaderboard</div>}
+          <div className="text-xl">S.GG</div>
         </Link>
+      </div>
+      <div className="flex items-center space-x-2">
       </div>
       <div />
       <div className="h-10">
