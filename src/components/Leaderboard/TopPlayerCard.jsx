@@ -1,6 +1,5 @@
 import React, { useMemo } from "react";
 import { importAll, wrToRank } from "../../utils";
-import classNames from "classnames";
 import WinrateBar from "./WinrateBar";
 import {  Link } from "react-router-dom";
 const images = importAll(

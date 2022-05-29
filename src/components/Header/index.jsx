@@ -1,5 +1,4 @@
 import React from "react";
-import Casino from "@material-ui/icons/Casino";
 import Assessment from "@material-ui/icons/Assessment";
 import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
