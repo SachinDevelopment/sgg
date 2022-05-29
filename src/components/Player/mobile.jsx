@@ -45,7 +45,7 @@ const Player = ({playerId}) => {
       data.champs.sort((a, b) => b.count - a.count || b.wins - a.wins);
       setPlayerData(data);
     });
-    
+
     axios
       .get(
         `${API_URL}/player/${playerId}/map/SR/games?page=${page}&limit=${LIMIT}`
@@ -62,7 +62,7 @@ const Player = ({playerId}) => {
   };
 
   return (
-    <div className="flex flex-col justify-start space-y-4 mb-12 h-auto">
+    <div className="flex flex-col justify-start space-y-4 mb-12 h-auto p-2">
       <div className="flex flex-col bg-gray-800 mt-3 rounded p-2 h-60">
         <div className="flex justify-start space-x-5 h-8 ml-3">
           {playerData?.prevRatings?.map((rating) =>
@@ -108,25 +108,25 @@ const Player = ({playerId}) => {
           </div>
           <div className="flex flex-col items-center justify-center font-semibold">
             <div className="flex items-center justify-between">
-              <img className="h-24 w-24" src={jungleIcon} alt="" />
-              <div className="flex flex-col flex-1">
-                <div className="text-left">
+              <img className="h-20 w-20" src={jungleIcon} alt="" />
+              <div className="flex flex-col flex-1 text-sm">
+                <div className="text-left ">
                   {playerData?.jungleWR}% WR
                 </div>
-                <div className="text-left text-sm">
+                <div className="text-left">
                   {playerData?.jungle} Played
                 </div>
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <div className="h-24 w-24 flex items-center justify-center">
-                <img className="h-20 w-20" src={laneIcon} alt="" />
+              <div className="h-20 w-20 flex items-center justify-center">
+                <img className="h-16 w-16" src={laneIcon} alt="" />
               </div>
-              <div className="flex flex-col flex-1">
+              <div className="flex flex-col flex-1 text-sm">
                 <div className="text-left">
                   {playerData?.laneWR}% WR
                 </div>
-                <div className="text-left text-sm">
+                <div className="text-left">
                   {playerData?.lane} Played
                 </div>
               </div>
@@ -134,7 +134,7 @@ const Player = ({playerId}) => {
           </div>
         </div>
       </div>
-        <div className="flex flex-col justify-between items-start overflow-hidden space-y-4 p-2">
+        <div className="flex flex-col justify-between items-start overflow-hidden space-y-4">
           <div className="border-gray-500 divide-y divide-gray-500 w-full text-gray-200 bg-gray-800 p-2">
             {playerData?.champs?.length ? (
               playerData.champs
