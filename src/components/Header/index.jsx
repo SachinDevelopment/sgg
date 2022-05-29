@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <div
       variant="dark"
-      className="p-2 bg-gray-800 font-semibold flex justify-between"
+      className="p-2 bg-gray-900 font-semibold flex justify-between"
     >
       <div className="flex items-center">
         <div className="text-2xl">S.GG</div>

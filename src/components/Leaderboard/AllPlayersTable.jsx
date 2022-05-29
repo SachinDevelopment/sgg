@@ -15,7 +15,7 @@ export default function AllPlayersTable({ allPlayers }) {
         <tr className="">
           <th className="h-16">Rank</th>
           <th>Player</th>
-          <th>
+          <th className="text-center">
             Tier
           </th>
           <th>Rating</th>

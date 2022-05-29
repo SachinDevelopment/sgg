@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import "./App.css";
 import Header from "./components/Header";
 import Leaderboard from "./components/Leaderboard";
@@ -21,7 +19,7 @@ const App = () => {
             <Route path="/" element={<Leaderboard />} />
           </Routes>
         ) : (
-          <div className="p-2">"Login to see stats"</div>
+          <div className="p-2 text-center">Login above to see stats</div>
         )}
       </div>
     </Router>

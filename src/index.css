@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 html, body, #root, .App {
-  height: 100%;
   color: white;
   background-color: rgb(55 65 81);
 }
