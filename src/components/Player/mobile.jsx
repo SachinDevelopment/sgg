@@ -77,14 +77,14 @@ const Player = ({playerId}) => {
         </div>
         <div className="flex justify-between bg-gradient-to-r rounded h-56 mr-4">
           <div className="flex items-center justify-center relative w-44">
-            <div>
-              <div className="text-xl font-semibold text-center pl-2">
+            <div  className="text-center">
+              <div className="font-bold">
                 {playerData.name}
               </div>
-              <div className="font-semibold text-lg">
+              <div className="text-sm">
                 {playerData.wins}-{playerData.loses} ({playerData.winrate}%)
               </div>
-              <div>{playerData.rating} MMR</div>
+              <div className="text-sm">{playerData.rating} MMR</div>
             </div>
             <div className="absolute top-3 left-1">
               {
