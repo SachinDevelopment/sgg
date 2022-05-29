@@ -7,7 +7,11 @@ const Leaderboard = () => {
   const breakpoint = 560;
 
   return (
-   width > breakpoint ? <DesktopLeaderboard/>: <MobileLeaderboard/>
+    <div>
+      <div className="text-center text-2xl font-semibold mt-4">Leaderboard</div>
+      <div className="text-center text-xs mb-4">(Click on a players name to see detailed stats)</div>
+   {width > breakpoint ? <DesktopLeaderboard/>: <MobileLeaderboard/>}
+   </div>
   );
 };
 
