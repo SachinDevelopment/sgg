@@ -7,7 +7,7 @@ const images = importAll(require.context('../../../assets/champions', false, /\.
 
 function GameCard({ game }) {
     return (
-        <div className={classNames("h-32 flex justify-between p-2", { 'bg-darkBlue': game.winner, 'bg-darkRed': !game.winner })}>
+        <div className={classNames("h-28 flex justify-between p-2", { 'bg-darkBlue': game.winner, 'bg-darkRed': !game.winner })}>
                 <div className="flex flex-col justify-between flex-1 text-sm">
                     <div className="font-bold text-gray-200">{game.map}</div>
                     <div className="text-gray-200">{moment(game.date).fromNow()}</div>
