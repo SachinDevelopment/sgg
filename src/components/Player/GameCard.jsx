@@ -11,7 +11,7 @@ function GameCard({ game }) {
                 <div className="flex flex-col justify-between flex-1 text-sm">
                     <div className="font-bold text-gray-200">{game.map}</div>
                     <div className="text-gray-200">{moment(game.date).fromNow()}</div>
-                    <div className={classNames("font-semibold text-red-300", { 'text-blue-300': game.winner })}>{game.winner ? `Victory (+${game.ratingChange})` : `Defeat (${game.ratingChange})`}</div>
+                    <div className={classNames("font-semibold text-red-300", { 'text-blue-500': game.winner })}>{game.winner ? `Victory (+${game.ratingChange})` : `Defeat (${game.ratingChange})`}</div>
                 </div>
                 <div className="flex flex-col justify-center flex-1 items-center p-1">
                     <img className="rounded-full w-14 h-14" alt="" src={images[`${game.myChamp}Square.png`]} />
