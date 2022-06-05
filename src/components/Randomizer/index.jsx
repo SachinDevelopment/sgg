@@ -3,6 +3,8 @@ import axios from "axios";
 import GameWin from "./GameWin";
 import { Button } from "react-bootstrap";
 import RedBlueTeam from "./RedBlueTeam";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate }  from "react-router-dom";
 
 let API_URL = process.env.REACT_APP_API_URL;
 
@@ -13,8 +15,15 @@ const Randomizer = () => {
   const [tracked, setTracked] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [winner, setWinner] = React.useState("");
+  const { user, isAuthenticated } = useAuth0();
+  const navigate = useNavigate();
 
-
+  useEffect(() => {
+    if(user?.email !== "sachinsunny2013@gmail.com") {
+      return navigate("/lol/leaderboard")
+    }
+  },[navigate, user])
+  
   useEffect(() => {
     axios.get(`${API_URL}/players`).then(({ data }) => {
       // If we already have selected or available get them from local storage, otherwise use the fetched data
@@ -44,7 +53,7 @@ const Randomizer = () => {
         setRedTeam(redLatest);
       }
     });
-  }, [setSelected, tracked]);
+  }, []);
 
   const handleRandomize = async () => {
     const len = selected.length;
@@ -135,7 +144,6 @@ const Randomizer = () => {
         setTracked={setTracked}
       />
       <div className="flex w-full justify-around">
-        <div className="w-3/5">
           <RedBlueTeam
             redTeam={redTeam}
             setRedTeam={setRedTeam}
@@ -145,7 +153,6 @@ const Randomizer = () => {
             setOpen={setOpen}
             setWinner={setWinner}
           />
-        </div>
         <div className="flex flex-col justify-center">
           {!tracked && (
             <Button

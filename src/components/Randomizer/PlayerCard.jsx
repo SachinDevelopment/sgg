@@ -27,7 +27,7 @@ export default function PlayerCard({ player, setTeam, team, index, color }) {
     >
       <div className="flex justify-between items-center h-full">
         <Link to={`/lol/player/${player.id}/stats`}>
-          <div className="text-3xl mr-2 ml-2">{player.name}</div>
+          <div className="text-2xl mr-2 ml-2">{player.name}</div>
         </Link>
         <div className="flex items-end space-x-1 space-y-1 text-sm text-gray-600 justify-center">
           {player?.fav_champs?.map((champ) => {

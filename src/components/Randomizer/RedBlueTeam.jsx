@@ -51,7 +51,7 @@ export default function RedBlueTeam({
 
   return (
     <div className="flex space-x-4 w-full">
-      <div className="w-1/2">
+      <div>
         <div className="h-10 m-3">
           {!tracked && (
             <Button
@@ -75,7 +75,7 @@ export default function RedBlueTeam({
         </div>
         <Team team={blueTeam} setTeam={setBlueTeam} color="blue" />
       </div>
-      <div className="w-1/2">
+      <div>
         <div className="h-10 m-3">
           {!tracked && (
             <Button
