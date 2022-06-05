@@ -26,7 +26,7 @@ export default function AllPlayersTable({ allPlayers }) {
         {allPlayers.map((player, index) => {
           const rank = wrToRank(player.rating, player.wins + player.loses);
           return (
-            <tr className={index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}>
+            <tr key={index} className={index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}>
               <td className="rounded-l">{index + 4}</td>
               <td>
                 <Link to={`/player/${player.id}/stats`}>{player.name}</Link>

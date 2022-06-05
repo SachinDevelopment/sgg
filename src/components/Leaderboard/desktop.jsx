@@ -37,7 +37,7 @@ const DesktopLeaderboard = () => {
       <div className="flex flex-col justify-center w-200 space-y-4">
         <div className="">
           {topPlayer.map((player) => (
-            <TopPlayer player={player} />
+            <TopPlayer  key={uuid()} player={player} />
           ))}
         </div>
         <div className="flex justify-between space-x-4">
