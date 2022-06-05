@@ -63,7 +63,7 @@ const MobileLeaderboard = () => {
               <tr className={index % 2 === 0 ? "bg-gray-900" : "bg-gray-800"}>
                 <td className="rounded-l">{index + 4}</td>
                 <td>
-                  <Link to={`/player/${player.id}/stats`}>{player.name}</Link>
+                  <Link to={`/lol/player/${player.id}/stats`}>{player.name}</Link>
                 </td>
                 <td className="flex items-center justify-center h-16">
                   <div className="flex items-center space-x-4">

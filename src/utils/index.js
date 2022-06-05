@@ -15,7 +15,7 @@ export const winrateColor = (winrate, wins, loses) => {
 export const tailwindWinratecolor = (winrate) => {
   if (winrate >= 70) return "yellow-500";
   if (winrate >= 60) return "blue-500";
-  return "gray-600";
+  return "gray-500";
 };
 
 export const CHAMPIONS = [

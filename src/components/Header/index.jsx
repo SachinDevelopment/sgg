@@ -17,11 +17,16 @@ const Header = () => {
       className="p-2 bg-gray-900 font-semibold flex justify-between"
     >
       <div className="flex items-center pl-2">
-        <Link className="flex items-center" to="/leaderboard">
+        <Link className="flex items-center" to="/lol/leaderboard">
           <Assessment />
           <div className="text-xl">S.GG</div>
         </Link>
       </div>
+      <Link className="flex items-center" to="/lol/matchmaking">
+      <div>
+        Matchmaking
+      </div>
+      </Link>
       <div className="flex items-center space-x-2">
       </div>
       <div />

@@ -15,7 +15,7 @@ const Card = ({ player, ranking }) => {
           <div className="h-6 pl-1 pr-1 bg-blue-900 rounded flex items-center justify-center text-blue-300 text-xl font-bold text-center">
             {ranking}
           </div>
-            <Link to={`/player/${player.id}/stats`} className="text-xl font-semibold text-blue-400">
+            <Link to={`/lol/player/${player.id}/stats`} className="text-xl font-semibold text-blue-400">
               {player?.name}
             </Link>
         </div>

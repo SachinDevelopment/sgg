@@ -17,7 +17,7 @@ const Card = ({ player }) => {
           <div className="h-6 pl-1 pr-1 bg-blue-900 rounded flex items-center justify-center text-blue-300 text-xl font-bold text-center">
             1
           </div>
-            <Link to={`/player/${player.id}/stats`} className="text-lg font-semibold text-yellow-500">{player?.name}</Link>
+            <Link to={`/lol/player/${player.id}/stats`} className="text-lg font-semibold text-yellow-500">{player?.name}</Link>
         </div>
         <div className="flex bg-gray-800 p-1 justify-center space-x-2 items-center rounded font-semibold text-xs w-full">
           <div className="w-10">

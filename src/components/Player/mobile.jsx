@@ -9,7 +9,6 @@ import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core/styles";
 
 const positions = importAll(require.context("../../../assets/positions", false, /\.png/))
-console.log('positions', positions)
 const jungleIcon = positions['jungle_icon.png'];
 const laneIcon = positions['lane_icon.png'];
 const LIMIT = 5;

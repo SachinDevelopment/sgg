@@ -38,7 +38,7 @@ export default function Stats({ playerId }) {
                 }
               >
                 <td className="rounded-l">
-                  <Link to={`/player/${player.id}/stats`}>{player.name}</Link>
+                  <Link to={`/lol/player/${player.id}/stats`}>{player.name}</Link>
                 </td>
                 <td>
                   <WinrateBar
