@@ -73,13 +73,22 @@ const Randomizer = () => {
     const selCopy = [...selected];
     selCopy.splice(idx, 1);
     setSelected(selCopy);
+
     socket.emit("selectedUpdate", selCopy);
   };
 
   const handleAvailable = (a) => {
-    if (selected.find((sel) => sel.id === a.id) || selected.length >= 10) {
+    const toRemove = selected.findIndex((sel) => sel.id === a.id)
+      const selCopy = [...selected];
+      selCopy.splice(toRemove, 1);
+      setSelected(selCopy);
+      return socket.emit("selectedUpdate", selCopy);
+    }
+   
+    if (selected.length >= 10) {
       return;
     }
+    
     setSelected([...selected, a]);
     socket.emit("selectedUpdate", [...selected, a]);
   };
@@ -108,12 +117,12 @@ const Randomizer = () => {
         </div>
       )}
       <div>
-      {user?.email === "sachinsunny2013@gmail.com" && ( <div className="flex justify-around max-h-96 h-96 overflow-y-hidden">
+      {user?.email === "sachinsunny2013@gmail.com" && ( <div className="flex justify-around max-h-96 h-96 overflow-y-hidden ">
           <div className="grid grid-cols-4 gap-2 w-2/5 h-min ">
             {available.map((a) => (
               <div
                 className={classnames(
-                  "h-12 p-2 mb-1 border-2 border-black rounded text-center bg-gray-900 truncate",
+                  "h-12 p-2 mb-1 border-2 border-black rounded text-center bg-gray-900 truncate cursor-pointer",
                   { "text-green-500": selected.find((sel) => sel.id === a.id) }
                 )}
                 onClick={() => handleAvailable(a)}
@@ -125,7 +134,7 @@ const Randomizer = () => {
           <div className="grid grid-cols-2 gap-x-1 w-2/5 h-min">
             {selected.map((s, idx) => (
               <div
-                className="h-16 w-auto p-2 mb-1 border-2 border-black rounded text-center bg-gray-800 justify-start"
+                className="h-16 w-auto p-2 mb-1 border-2 border-black rounded text-center bg-gray-800 justify-start cursor-pointer"
                 onClick={() => handleSelected(idx)}
               >
                 {s.name}
