@@ -79,6 +79,7 @@ const Randomizer = () => {
 
   const handleAvailable = (a) => {
     const toRemove = selected.findIndex((sel) => sel.id === a.id)
+    if(toRemove != -1){
       const selCopy = [...selected];
       selCopy.splice(toRemove, 1);
       setSelected(selCopy);
