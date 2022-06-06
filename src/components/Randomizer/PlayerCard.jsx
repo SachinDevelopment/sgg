@@ -48,9 +48,8 @@ export default function PlayerCard({
             return (
               <div
                 key={uuid()}
-                className={`flex items-center justify-center min-w-max border-2 border-${tailwindWinratecolor(
-                  winrate
-                )}`}
+                className={classnames("flex items-center justify-center min-w-max border-2 border-gray-500", {"border-yellow-500": winrate >= 70, "border-blue-500": winrate >= 60 && winrate < 70 }
+                 )}
               >
                 <img
                   className="w-10 h-10"
