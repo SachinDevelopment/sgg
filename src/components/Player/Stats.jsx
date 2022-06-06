@@ -20,7 +20,7 @@ export default function Stats({ playerId }) {
   }, [playerId]);
 
   return (
-    <div className="bg-gray-800 h-auto w-auto p-4 rounded">
+    <div className="bg-gray-800 h-auto w-auto p-4 rounded text-center">
       <table className="bg-gray-800 w-full">
         <thead>
           <tr className="h-16">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import { importAll, CHAMPIONS, ROLES, tailwindWinratecolor } from "../../utils";
@@ -7,16 +7,26 @@ import classnames from "classnames";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 
-const positions = importAll(require.context("../../../assets/positions", false, /\.png/))
-const fillIcon = positions['fill_icon.png'];
-const jungleIcon = positions['jungle_icon.png'];
-const laneIcon = positions['lane_icon.png'];
+const positions = importAll(
+  require.context("../../../assets/positions", false, /\.png/)
+);
+const fillIcon = positions["fill_icon.png"];
+const jungleIcon = positions["jungle_icon.png"];
+const laneIcon = positions["lane_icon.png"];
 
 const images = importAll(
   require.context("../../../assets/champions", false, /\.png/)
 );
 
-export default function PlayerCard({ player, setTeam, team, index, color }) {
+export default function PlayerCard({
+  player,
+  setTeam,
+  team,
+  index,
+  color,
+  socket,
+}) {
+
   return (
     <div
       key={`${player.name}-${index}`}
@@ -66,10 +76,7 @@ export default function PlayerCard({ player, setTeam, team, index, color }) {
           <div className="w-8">
             {player.champion !== "Champion" &&
               images[`${player.champion}Square.png`] && (
-                <img
-                  alt=""
-                  src={images[`${player.champion}Square.png`]}
-                />
+                <img alt="" src={images[`${player.champion}Square.png`]} />
               )}
           </div>
         </div>
@@ -83,6 +90,12 @@ export default function PlayerCard({ player, setTeam, team, index, color }) {
                 return;
               }
               setTeam([
+                ...team.slice(0, index),
+                { ...team[index], role: newInputValue },
+                ...team.slice(index + 1),
+              ]);
+
+              socket.emit(color === "red" ? "redUpdate" : "blueUpdate",[
                 ...team.slice(0, index),
                 { ...team[index], role: newInputValue },
                 ...team.slice(index + 1),
@@ -102,6 +115,12 @@ export default function PlayerCard({ player, setTeam, team, index, color }) {
                 return;
               }
               setTeam([
+                ...team.slice(0, index),
+                { ...team[index], champion: newInputValue },
+                ...team.slice(index + 1),
+              ]);
+
+              socket.emit(color === "red" ? "redUpdate" : "blueUpdate", [
                 ...team.slice(0, index),
                 { ...team[index], champion: newInputValue },
                 ...team.slice(index + 1),

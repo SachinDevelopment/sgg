@@ -2,7 +2,7 @@ import React from "react";
 import PlayerCard from "./PlayerCard";
 import { v4 as uuid } from "uuid";
 
-export default function TeamsTable({ team, setTeam, color }) {
+export default function TeamsTable({ team, setTeam, color, socket }) {
   return (
     <div className="flex flex-col space-y-1 w-full">
       {team.map((player, index) => (
@@ -13,6 +13,7 @@ export default function TeamsTable({ team, setTeam, color }) {
           team={team}
           index={index}
           color={color}
+          socket={socket}
         />
       ))}
     </div>

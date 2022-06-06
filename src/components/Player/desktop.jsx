@@ -109,9 +109,9 @@ const Player = ({playerId}) => {
               ""
             )}
           </div>
-          <div className="flex items-center justify-center relative w-44">
-            <div>
-              <div className="text-xl font-semibold text-center pl-2">
+          <div className="flex items-center justify-center relative w-52">
+            <div className="text-center">
+              <div className="text-2xl font-semibold pl-2 truncate">
                 {playerData.name}
               </div>
               <div className="font-semibold text-lg">
@@ -119,7 +119,7 @@ const Player = ({playerId}) => {
               </div>
               <div>{playerData.rating} MMR</div>
             </div>
-            <div className="absolute top-3 left-1">
+            <div className="absolute bottom-1 left-1">
               {
                 <PieChart
                   lineWidth={25}

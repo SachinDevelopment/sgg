@@ -11,6 +11,8 @@ export default function RedBlueTeam({
   setOpen,
   setWinner,
   tracked,
+  user,
+  socket
 }) {
   const calculateTeamRating = () => {
     let sum = 0;
@@ -50,10 +52,10 @@ export default function RedBlueTeam({
   };
 
   return (
-    <div className="flex space-x-4 w-full">
+    <div className="flex space-x-4">
       <div>
-        <div className="h-10 m-3">
-          {!tracked && (
+        <div className="h-10 m-3 justify-center flex">
+          {!tracked && user?.email === "sachinsunny2013@gmail.com" && (
             <Button
               variant="dark"
               type="button"
@@ -73,11 +75,11 @@ export default function RedBlueTeam({
         <div className="text-2xl mb-2">
           Average MMR: {`${blueRating} (+${blueWinRating} / ${blueLoseRating})`}
         </div>
-        <Team team={blueTeam} setTeam={setBlueTeam} color="blue" />
+        <Team team={blueTeam} setTeam={setBlueTeam} color="blue" socket={socket}  />
       </div>
       <div>
-        <div className="h-10 m-3">
-          {!tracked && (
+        <div className="h-10 m-3 justify-center flex">
+          {!tracked && user?.email === "sachinsunny2013@gmail.com" && (
             <Button
               variant="dark"
               type="button"
@@ -97,7 +99,7 @@ export default function RedBlueTeam({
         <div className="text-2xl mb-2">
           Average MMR: {`${redRating} (+${redWinRating} / ${redLoseRating})`}
         </div>
-        <Team team={redTeam} setTeam={setRedTeam} color="red" />
+        <Team team={redTeam} setTeam={setRedTeam} color="red" socket={socket} />
       </div>
     </div>
   );

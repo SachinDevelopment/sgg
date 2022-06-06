@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import GameWin from "./GameWin";
 import { Button } from "react-bootstrap";
 import RedBlueTeam from "./RedBlueTeam";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
+import axios from "axios";
+import classnames from "classnames";
+
 let API_URL = process.env.REACT_APP_API_URL;
 
 const Randomizer = () => {
@@ -16,9 +17,8 @@ const Randomizer = () => {
   const [open, setOpen] = React.useState(false);
   const [winner, setWinner] = React.useState("");
   const { user } = useAuth0();
-  const navigate = useNavigate();
-
   const [socket, setSocket] = useState(null);
+  const [available, setAvailable] = useState([]);
 
   useEffect(() => {
     const newSocket = io(API_URL);
@@ -31,9 +31,9 @@ const Randomizer = () => {
 
     socket.on("init", (msg) => {
       const { red, blue, selected } = msg;
-      setRedTeam(JSON.parse(red));
-      setBlueTeam(JSON.parse(blue));
-      setSelected(JSON.parse(selected));
+      setRedTeam(red);
+      setBlueTeam(blue);
+      setSelected(selected);
     });
 
     socket.on("randomized", (msg) => {
@@ -41,23 +41,48 @@ const Randomizer = () => {
       setRedTeam(red);
       setBlueTeam(blue);
     });
-  }, [socket, setRedTeam, setBlueTeam]);
 
-  
-  // useEffect(() => {
-  //   if (user?.email !== "sachinsunny2013@gmail.com") {
-  //     return navigate("/lol/leaderboard");
-  //   }
-  // }, [navigate, user]);
+    socket.on("redUpdated", (msg) => {
+      const { red } = msg;
+      setRedTeam(red);
+    });
 
-const handleRandomize = () => {
-  socket.emit('randomize', selected);
-}
-  // const handlePlayAgain = () => {
-  //   setTracked(false);
-  //   handleRandomize();
-  // };
+    socket.on("blueUpdated", (msg) => {
+      const { blue } = msg;
+      setBlueTeam(blue);
+    });
 
+    socket.on("selectedUpdated", (msg) => {
+      const { selected } = msg;
+      setSelected(selected);
+    });
+  }, [socket, setRedTeam, setBlueTeam, setSelected]);
+
+  useEffect(() => {
+    (async () => {
+      let { data } = await axios.get(`${API_URL}/players`);
+      setAvailable(data);
+    })();
+  }, [setAvailable]);
+
+  const handleRandomize = () => {
+    socket.emit("randomize", selected);
+  };
+
+  const handleSelected = (idx) => {
+    const selCopy = [...selected];
+    selCopy.splice(idx, 1);
+    setSelected(selCopy);
+    socket.emit("selectedUpdate", selCopy);
+  };
+
+  const handleAvailable = (a) => {
+    if (selected.find((sel) => sel.id === a.id) || selected.length >= 10) {
+      return;
+    }
+    setSelected([...selected, a]);
+    socket.emit("selectedUpdate", [...selected, a]);
+  };
 
   return (
     <div className="flex flex-col items-center p-2">
@@ -69,18 +94,8 @@ const handleRandomize = () => {
         redTeam={redTeam}
         setTracked={setTracked}
       />
-      <div className="flex w-full justify-around">
-        <RedBlueTeam
-          redTeam={redTeam}
-          setRedTeam={setRedTeam}
-          blueTeam={blueTeam}
-          setBlueTeam={setBlueTeam}
-          tracked={tracked}
-          setOpen={setOpen}
-          setWinner={setWinner}
-        />
-        <div className="flex flex-col justify-center">
-          {!tracked && (
+      {user?.email === "sachinsunny2013@gmail.com" && (
+        <div className="flex flex-col items-center mb-4">
             <Button
               variant="dark"
               type="button"
@@ -90,17 +105,46 @@ const handleRandomize = () => {
             >
               Randomize
             </Button>
-          )}
-          {tracked && (
-            <Button
-              variant="dark"
-              type="button"
-              onClick={() => {}}
-              className="bg-blue-600 w-40"
-            >
-              Play again
-            </Button>
-          )}
+        </div>
+      )}
+      <div>
+      {user?.email === "sachinsunny2013@gmail.com" && ( <div className="flex justify-around max-h-96 h-96 overflow-y-hidden">
+          <div className="grid grid-cols-4 gap-2 w-2/5 h-min ">
+            {available.map((a) => (
+              <div
+                className={classnames(
+                  "h-12 p-2 mb-1 border-2 border-black rounded text-center bg-gray-900 truncate",
+                  { "text-green-500": selected.find((sel) => sel.id === a.id) }
+                )}
+                onClick={() => handleAvailable(a)}
+              >
+                {a.name}
+              </div>
+            ))}
+          </div>
+          <div className="grid grid-cols-2 gap-x-1 w-2/5 h-min">
+            {selected.map((s, idx) => (
+              <div
+                className="h-16 w-auto p-2 mb-1 border-2 border-black rounded text-center bg-gray-800 justify-start"
+                onClick={() => handleSelected(idx)}
+              >
+                {s.name}
+              </div>
+            ))}
+          </div>
+        </div>)}
+        <div className="flex flex-col w-full items-center space-y-6">
+          <RedBlueTeam
+            redTeam={redTeam}
+            setRedTeam={setRedTeam}
+            blueTeam={blueTeam}
+            setBlueTeam={setBlueTeam}
+            tracked={tracked}
+            setOpen={setOpen}
+            setWinner={setWinner}
+            user={user}
+            socket={socket}
+          />
         </div>
       </div>
     </div>

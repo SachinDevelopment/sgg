@@ -3,6 +3,8 @@ import GameWinDialog from "./GameWinDialog";
 import axios from "axios";
 import moment from "moment-timezone";
 
+let API_URL = process.env.REACT_APP_API_URL;
+
 export default function GameWin({
   open,
   setOpen,
@@ -71,7 +73,7 @@ export default function GameWin({
     const red = redTeamArray.join(",");
     const blue = blueTeamArray.join(",");
     axios
-      .post("http://localhost:5000/games", {
+      .post(`${API_URL}/lol/games`, {
         map,
         game_size: redTeam.length,
         winners,

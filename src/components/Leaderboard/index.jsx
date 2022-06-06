@@ -4,7 +4,7 @@ import { useViewport } from "../../context/ViewportProvider";
 
 const Leaderboard = () => {
   const { width } = useViewport();
-  const breakpoint = 560;
+  const breakpoint = 1000;
 
   return (
     <div>

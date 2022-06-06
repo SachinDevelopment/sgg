@@ -1,10 +1,11 @@
 import React from "react";
 import Assessment from "@material-ui/icons/Assessment";
+import Casino from "@material-ui/icons/Casino";
 import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useViewport } from "../../context/ViewportProvider";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const { user, isAuthenticated } = useAuth0();
@@ -16,18 +17,15 @@ const Header = () => {
       variant="dark"
       className="p-2 bg-gray-900 font-semibold flex justify-between"
     >
-      <div className="flex items-center pl-2">
+      <div className="flex items-center pl-2 space-x-6">
         <Link className="flex items-center" to="/lol/leaderboard">
           <Assessment />
-          <div className="text-xl">S.GG</div>
+          <div className="text-2xl">S.GG</div>
         </Link>
-      </div>
-      <Link className="flex items-center" to="/lol/matchmaking">
-      <div>
-        Matchmaking
-      </div>
+        <Link className="flex items-center" to="/lol/matchmaking">
+        <Casino />
+        <div>Matchmaking</div>
       </Link>
-      <div className="flex items-center space-x-2">
       </div>
       <div />
       <div className="h-10">
