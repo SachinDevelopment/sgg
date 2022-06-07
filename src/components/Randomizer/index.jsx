@@ -23,11 +23,18 @@ const Randomizer = () => {
   useEffect(() => {
     const newSocket = io(API_URL);
     setSocket(newSocket);
-    return () => newSocket.close();
+    return () => {
+      newSocket.disconnect();
+      newSocket.close();
+    };
   }, [setSocket]);
 
   useEffect(() => {
     if (!socket) return;
+
+    if (user) {
+      socket.emit("online", user.sub);
+    }
 
     socket.on("init", (msg) => {
       const { red, blue, selected } = msg;
@@ -56,7 +63,21 @@ const Randomizer = () => {
       const { selected } = msg;
       setSelected(selected);
     });
-  }, [socket, setRedTeam, setBlueTeam, setSelected]);
+
+    socket.on("playerOnline", (allPlayers) => {
+      const availableCopy = Array.from(available);
+      available.forEach((a) => {
+        if (allPlayers.find((all) => a.id === all)) {
+          console.log("here", a.id);
+          a.online = true;
+        } else {
+          console.log("here 2");
+          a.online = false;
+        }
+      });
+      setAvailable(availableCopy);
+    });
+  }, [socket, setRedTeam, setBlueTeam, setSelected, user, setAvailable]);
 
   useEffect(() => {
     (async () => {
@@ -78,18 +99,18 @@ const Randomizer = () => {
   };
 
   const handleAvailable = (a) => {
-    const toRemove = selected.findIndex((sel) => sel.id === a.id)
-    if(toRemove != -1){
+    const toRemove = selected.findIndex((sel) => sel.id === a.id);
+    if (toRemove != -1) {
       const selCopy = [...selected];
       selCopy.splice(toRemove, 1);
       setSelected(selCopy);
       return socket.emit("selectedUpdate", selCopy);
     }
-   
+
     if (selected.length >= 10) {
       return;
     }
-    
+
     setSelected([...selected, a]);
     socket.emit("selectedUpdate", [...selected, a]);
   };
@@ -106,43 +127,48 @@ const Randomizer = () => {
       />
       {user?.email === "sachinsunny2013@gmail.com" && (
         <div className="flex flex-col items-center mb-4">
-            <Button
-              variant="dark"
-              type="button"
-              onClick={handleRandomize}
-              disabled={selected.length < 4 || selected.length % 2 !== 0}
-              className="bg-blue-600 w-40"
-            >
-              Randomize
-            </Button>
+          <Button
+            variant="dark"
+            type="button"
+            onClick={handleRandomize}
+            disabled={selected.length < 4 || selected.length % 2 !== 0}
+            className="bg-blue-600 w-40"
+          >
+            Randomize
+          </Button>
         </div>
       )}
       <div>
-      {user?.email === "sachinsunny2013@gmail.com" && ( <div className="flex justify-around max-h-96 h-96 overflow-y-hidden ">
-          <div className="grid grid-cols-4 gap-2 w-2/5 h-min ">
-            {available.map((a) => (
-              <div
-                className={classnames(
-                  "h-12 p-2 mb-1 border-2 border-black rounded text-center bg-gray-900 truncate cursor-pointer",
-                  { "text-green-500": selected.find((sel) => sel.id === a.id) }
-                )}
-                onClick={() => handleAvailable(a)}
-              >
-                {a.name}
-              </div>
-            ))}
+        {user?.email === "sachinsunny2013@gmail.com" && (
+          <div className="flex justify-around max-h-96 h-96 overflow-y-hidden ">
+            <div className="grid grid-cols-4 gap-2 w-2/5 h-min ">
+              {available.map((a) => (
+                <div
+                  className={classnames(
+                    "h-12 p-2 mb-1 border-2 rounded text-center bg-gray-900 truncate cursor-pointer border-black",
+                    {
+                      "text-green-500": selected.find((sel) => sel.id === a.id),
+                    }
+                  )}
+                  onClick={() => handleAvailable(a)}
+                >
+                    {a.online && <div className="w-2 h-2 bg-green-500 rounded" />}
+                  <div>{a.name}</div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-x-1 w-2/5 h-min">
+              {selected.map((s, idx) => (
+                <div
+                  className="h-16 w-auto p-2 mb-1 border-2 border-black rounded text-center bg-gray-800 justify-start cursor-pointer"
+                  onClick={() => handleSelected(idx)}
+                >
+                  {s.name}
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-2 gap-x-1 w-2/5 h-min">
-            {selected.map((s, idx) => (
-              <div
-                className="h-16 w-auto p-2 mb-1 border-2 border-black rounded text-center bg-gray-800 justify-start cursor-pointer"
-                onClick={() => handleSelected(idx)}
-              >
-                {s.name}
-              </div>
-            ))}
-          </div>
-        </div>)}
+        )}
         <div className="flex flex-col w-full items-center space-y-6">
           <RedBlueTeam
             redTeam={redTeam}
