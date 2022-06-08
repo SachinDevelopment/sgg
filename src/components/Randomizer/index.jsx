@@ -3,13 +3,12 @@ import GameWin from "./GameWin";
 import { Button } from "react-bootstrap";
 import RedBlueTeam from "./RedBlueTeam";
 import { useAuth0 } from "@auth0/auth0-react";
-import { io } from "socket.io-client";
 import axios from "axios";
 import classnames from "classnames";
 
 let API_URL = process.env.REACT_APP_API_URL;
 
-const Randomizer = () => {
+const Randomizer = ({socket}) => {
   const [blueTeam, setBlueTeam] = useState([]);
   const [redTeam, setRedTeam] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -17,17 +16,8 @@ const Randomizer = () => {
   const [open, setOpen] = React.useState(false);
   const [winner, setWinner] = React.useState("");
   const { user } = useAuth0();
-  const [socket, setSocket] = useState(null);
   const [available, setAvailable] = useState([]);
 
-  useEffect(() => {
-    const newSocket = io(API_URL);
-    setSocket(newSocket);
-    return () => {
-      newSocket.disconnect();
-      newSocket.close();
-    };
-  }, [setSocket]);
 
   useEffect(() => {
     if (!socket) return;
