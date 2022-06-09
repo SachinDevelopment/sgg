@@ -8,7 +8,6 @@ import { ViewportProvider} from './context/ViewportProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <ViewportProvider>
       <Auth0Provider
     domain="dev-gtsk-v34.us.auth0.com"
@@ -20,7 +19,6 @@ root.render(
     <App />
     </Auth0Provider>
     </ViewportProvider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

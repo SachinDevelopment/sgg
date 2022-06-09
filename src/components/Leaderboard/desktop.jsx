@@ -7,30 +7,28 @@ import { v4 as uuid } from "uuid";
 
 let API_URL = process.env.REACT_APP_API_URL;
 
-const DesktopLeaderboard = () => {
+const DesktopLeaderboard = ({allPlayers}) => {
   const [topPlayer, setTopPlayer] = useState([]);
   const [topThree, setTopThree] = useState([]);
   const [otherPlayers, setOtherPlayers] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(`${API_URL}/players`);
-      const sortedData = data.slice();
-      sortedData.sort((a, b) => {
-        const bGames = b.wins + b.loses;
-        const aGames = a.wins + a.loses;
-        const val =
-          !!(bGames >= 10) - !!(aGames >= 10) ||
-          !!(bGames > 0) - !!(aGames > 0) ||
-          b.rating - a.rating ||
-          b.wins - a.wins;
-        return val;
-      });
-      setTopPlayer(sortedData.slice(0, 1));
-      setTopThree(sortedData.slice(1, 3));
-      setOtherPlayers(sortedData.slice(3, sortedData.length));
-    })();
-  }, []);
+    if(!allPlayers) return;
+    const sortedData = allPlayers.slice();
+    sortedData.sort((a, b) => {
+      const bGames = b.wins + b.loses;
+      const aGames = a.wins + a.loses;
+      const val =
+        !!(bGames >= 10) - !!(aGames >= 10) ||
+        !!(bGames > 0) - !!(aGames > 0) ||
+        b.rating - a.rating ||
+        b.wins - a.wins;
+      return val;
+    });
+    setTopPlayer(sortedData.slice(0, 1));
+    setTopThree(sortedData.slice(1, 3));
+    setOtherPlayers(sortedData.slice(3, sortedData.length));
+  }, [allPlayers]);
 
   return (
     <div className="flex justify-center">

@@ -8,30 +8,28 @@ import classnames from "classnames";
 
 let API_URL = process.env.REACT_APP_API_URL;
 
-const Randomizer = ({socket}) => {
+const Randomizer = ({ socket, available }) => {
   const [blueTeam, setBlueTeam] = useState([]);
   const [redTeam, setRedTeam] = useState([]);
   const [selected, setSelected] = useState([]);
   const [tracked, setTracked] = useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [winner, setWinner] = React.useState("");
   const { user } = useAuth0();
-  const [available, setAvailable] = useState([]);
-
 
   useEffect(() => {
+    console.log('here')
+   axios.get(`${API_URL}/randomizer/state`).then(({data}) => {
+    const { red, blue, selected} = data;
+    console.log('data', data);
+    setRedTeam(red);
+    setBlueTeam(blue);
+    setSelected(selected);
+   })
+  }, [setRedTeam, setBlueTeam, setSelected]);
+  
+  useEffect(() => {
     if (!socket) return;
-
-    if (user) {
-      socket.emit("online", user.sub);
-    }
-
-    socket.on("init", (msg) => {
-      const { red, blue, selected } = msg;
-      setRedTeam(red);
-      setBlueTeam(blue);
-      setSelected(selected);
-    });
 
     socket.on("randomized", (msg) => {
       const { red, blue } = msg;
@@ -53,28 +51,7 @@ const Randomizer = ({socket}) => {
       const { selected } = msg;
       setSelected(selected);
     });
-
-    socket.on("playerOnline", (allPlayers) => {
-      const availableCopy = Array.from(available);
-      available.forEach((a) => {
-        if (allPlayers.find((all) => a.id === all)) {
-          console.log("here", a.id);
-          a.online = true;
-        } else {
-          console.log("here 2");
-          a.online = false;
-        }
-      });
-      setAvailable(availableCopy);
-    });
-  }, [socket, setRedTeam, setBlueTeam, setSelected, user, setAvailable]);
-
-  useEffect(() => {
-    (async () => {
-      let { data } = await axios.get(`${API_URL}/players`);
-      setAvailable(data);
-    })();
-  }, [setAvailable]);
+  }, [socket, setRedTeam, setBlueTeam, setSelected]);
 
   const handleRandomize = () => {
     socket.emit("randomize", selected);
@@ -132,8 +109,9 @@ const Randomizer = ({socket}) => {
         {user?.email === "sachinsunny2013@gmail.com" && (
           <div className="flex justify-around max-h-96 h-96 overflow-y-hidden ">
             <div className="grid grid-cols-4 gap-2 w-2/5 h-min ">
-              {available.map((a) => (
+              {available.map((a, idx) => (
                 <div
+                  key={idx}
                   className={classnames(
                     "h-12 p-2 mb-1 border-2 rounded text-center bg-gray-900 truncate cursor-pointer border-black",
                     {
@@ -142,7 +120,7 @@ const Randomizer = ({socket}) => {
                   )}
                   onClick={() => handleAvailable(a)}
                 >
-                    {a.online && <div className="w-2 h-2 bg-green-500 rounded" />}
+                  {a.online && <div className="w-2 h-2 bg-green-500 rounded" />}
                   <div>{a.name}</div>
                 </div>
               ))}
@@ -150,6 +128,7 @@ const Randomizer = ({socket}) => {
             <div className="grid grid-cols-2 gap-x-1 w-2/5 h-min">
               {selected.map((s, idx) => (
                 <div
+                  key={idx}
                   className="h-16 w-auto p-2 mb-1 border-2 border-black rounded text-center bg-gray-800 justify-start cursor-pointer"
                   onClick={() => handleSelected(idx)}
                 >

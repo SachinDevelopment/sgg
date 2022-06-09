@@ -20,7 +20,7 @@ const Header = () => {
       <div className="flex items-center pl-2 space-x-6">
         <Link className="flex items-center" to="/lol/leaderboard">
           <Assessment />
-          <div className="text-2xl">S.GG</div>
+          <div className="text-xl">S.GG</div>
         </Link>
         <Link className="flex items-center" to="/lol/matchmaking">
         <Casino />
