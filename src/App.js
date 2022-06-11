@@ -1,4 +1,3 @@
-import "./App.css";
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Leaderboard from "./components/Leaderboard";
@@ -14,16 +13,26 @@ const App = () => {
   const [socket, setSocket] = useState(null);
   const { isAuthenticated, user } = useAuth0();
   const [available, setAvailable] = useState([]);
+  const [ currentUser, setCurrentUser] = useState([]);
+  const [online, setOnline] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      let { data } = await axios.get(`${API_URL}/players`);
+    axios.get(`${API_URL}/players`).then(({ data }) => {
       setAvailable(data);
-    })();
+    });
   }, [setAvailable]);
 
+  
   useEffect(() => {
-    console.log('new socket?')
+    if(!user) return;
+    axios.get(`${API_URL}/user/${user.sub}`).then(({ data }) => {
+      setCurrentUser(data);
+    });
+  }, [user]);
+
+
+
+  useEffect(() => {
     const newSocket = io(API_URL);
     setSocket(newSocket);
     return () => {
@@ -47,9 +56,9 @@ const App = () => {
           a.online = false;
         }
       });
-      setAvailable(availableCopy);
+      setOnline(availableCopy);
     });
-  }, [socket, user]);
+  }, [socket, user, setOnline, available]);
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -66,13 +75,16 @@ const App = () => {
       <div>
         <Header />
         <Routes className="p-2">
-          <Route path="/lol/leaderboard" element={<Leaderboard allPlayers={available}/>} />
+          <Route
+            path="/lol/leaderboard"
+            element={<Leaderboard allPlayers={available} />}
+          />
           <Route path="/lol/player/:id/stats" element={<Player />} exact />
           <Route
             path="/lol/matchmaking"
-            element={<Randomizer socket={socket} available={available} />}
+            element={<Randomizer socket={socket} available={online} currentUser={currentUser}/>}
           />
-          <Route path="/" element={<Leaderboard allPlayers={available}/>} />
+          <Route path="/" element={<Leaderboard allPlayers={available} />} />
         </Routes>
       </div>
     </Router>

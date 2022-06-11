@@ -8,7 +8,7 @@ import classnames from "classnames";
 
 let API_URL = process.env.REACT_APP_API_URL;
 
-const Randomizer = ({ socket, available }) => {
+const Randomizer = ({ socket, available, currentUser }) => {
   const [blueTeam, setBlueTeam] = useState([]);
   const [redTeam, setRedTeam] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -18,10 +18,8 @@ const Randomizer = ({ socket, available }) => {
   const { user } = useAuth0();
 
   useEffect(() => {
-    console.log('here')
    axios.get(`${API_URL}/randomizer/state`).then(({data}) => {
     const { red, blue, selected} = data;
-    console.log('data', data);
     setRedTeam(red);
     setBlueTeam(blue);
     setSelected(selected);
@@ -105,8 +103,9 @@ const Randomizer = ({ socket, available }) => {
           </Button>
         </div>
       )}
+     {redTeam.find((s) => s.id === currentUser.id) ||  blueTeam.find((s) => s.id === currentUser.id) ? 'Dodge' : ''}
       <div>
-        {user?.email === "sachinsunny2013@gmail.com" && (
+        {/* {user?.email === "sachinsunny2013@gmail.com" && ( */}
           <div className="flex justify-around max-h-96 h-96 overflow-y-hidden ">
             <div className="grid grid-cols-4 gap-2 w-2/5 h-min ">
               {available.map((a, idx) => (
@@ -137,7 +136,7 @@ const Randomizer = ({ socket, available }) => {
               ))}
             </div>
           </div>
-        )}
+        {/* )} */}
         <div className="flex flex-col w-full items-center space-y-6">
           <RedBlueTeam
             redTeam={redTeam}
