@@ -80,11 +80,12 @@ const Randomizer = ({ socket, available, currentUser }) => {
     }
 
     setSelected([...selected, a]);
+    socket.emit("selectedUpdate", [...selected, a]);
   };
 
   if(!user) {
     return <div className="flex text-center text-3xl pt-6 justify-center">
-      <h1 >Please login to access matchmaking!</h1>
+      <h1 >Login to access matchmaking!</h1>
       </div>
   }
 
