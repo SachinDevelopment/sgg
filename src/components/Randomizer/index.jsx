@@ -19,16 +19,18 @@ const Randomizer = ({ socket, available, currentUser }) => {
   const breakpoint = 850;
 
   useEffect(() => {
+    if(!user) return;
+
     axios.get(`${API_URL}/randomizer/state`).then(({ data }) => {
       const { red, blue, selected } = data;
       setRedTeam(red);
       setBlueTeam(blue);
       setSelected(selected);
     });
-  }, [setRedTeam, setBlueTeam, setSelected]);
+  }, [setRedTeam, setBlueTeam, setSelected, user]);
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || !user) return;
 
     socket.on("randomized", (msg) => {
       const { red, blue } = msg;
@@ -50,7 +52,7 @@ const Randomizer = ({ socket, available, currentUser }) => {
       const { selected } = msg;
       setSelected(selected);
     });
-  }, [socket, setRedTeam, setBlueTeam, setSelected]);
+  }, [socket, setRedTeam, setBlueTeam, setSelected, user]);
 
   const handleRandomize = () => {
     socket.emit("randomize", selected);
@@ -79,6 +81,12 @@ const Randomizer = ({ socket, available, currentUser }) => {
 
     setSelected([...selected, a]);
   };
+
+  if(!user) {
+    return <div className="flex text-center text-3xl pt-6 justify-center">
+      <h1 >Please login to access matchmaking!</h1>
+      </div>
+  }
 
     return width > breakpoint ? (
       <Desktop

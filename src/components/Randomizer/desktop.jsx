@@ -38,15 +38,15 @@ console.log('hello')
       />
       {user?.email === "sachinsunny2013@gmail.com" && (
         <div className="flex flex-col items-center mb-4">
-          <Button
+          <div
             variant="dark"
             type="button"
             onClick={handleRandomize}
             disabled={selected.length < 4 || selected.length % 2 !== 0}
-            className="bg-blue-600 w-40"
+            className="bg-blue-600 w-40 p-2 rounded text-center cursor-pointer"
           >
             Randomize
-          </Button>
+          </div>
         </div>
       )}
       {redTeam.find((s) => s.id === currentUser.id) ||

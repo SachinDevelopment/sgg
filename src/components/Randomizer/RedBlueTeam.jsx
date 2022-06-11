@@ -56,7 +56,7 @@ export default function RedBlueTeam({
       <div>
         <div className="h-10 m-3 justify-center flex">
           {!tracked && user?.email === "sachinsunny2013@gmail.com" && (
-            <Button
+            <div
               variant="dark"
               type="button"
               disabled={
@@ -66,10 +66,10 @@ export default function RedBlueTeam({
                 blueTeam.some((b) => !b.role)
               }
               onClick={handleOpenDialog("blue")}
-              className="bg-darkBlue w-40"
+              className="bg-darkBlue w-40 p-2 rounded text-center cursor-pointer"
             >
               Blue wins
-            </Button>
+            </div>
           )}
         </div>
         <div className="text-2xl mb-2">
@@ -90,7 +90,7 @@ export default function RedBlueTeam({
                 blueTeam.some((b) => !b.role)
               }
               onClick={handleOpenDialog("red")}
-              className="bg-darkRed w-40"
+              className="bg-darkRed w-40 p-2 rounded text-center cursor-pointer"
             >
               Red wins
             </Button>
