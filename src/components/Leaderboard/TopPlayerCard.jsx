@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { importAll, wrToRank } from "../../utils";
+import { importAll, wrToRank, getChampNameforLink } from "../../utils";
 import WinrateBar from "./WinrateBar";
 import {  Link } from "react-router-dom";
 const images = importAll(
@@ -40,11 +40,9 @@ const Card = ({ player, ranking }) => {
       >
         <img
           className="absolute top-0"
-          src={`https://static.u.gg/assets/lol/riot_static/11.9.1/img/splash/${
-            player?.fav_champs[0]?.name === "Jarvan"
-              ? "JarvanIV"
-              : player?.fav_champs[0]?.name
-          }_0.jpg`}
+          src={`https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${
+            getChampNameforLink(player?.fav_champs[0]?.name)
+           }_0.jpg`} 
         />
       </div>
     </div>
