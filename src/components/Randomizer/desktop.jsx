@@ -95,32 +95,31 @@ const Randomizer = ({
             </div>
           </div>
         )}
-        <div className="text-center h-12">
-          {(redTeam.find((s) => s.id === currentUser.id) ||
-            blueTeam.find((s) => s.id === currentUser.id)) &&
-            !dodged && (
-              <button
-                className="bg-blue-600 w-40 p-2 rounded text-center cursor-pointer disabled:cursor-not-allowed hover:bg-blue-500"
-                onClick={() => setDodgeOpen(true)}
-              >
-                Dodge
-              </button>
-            )}
-        </div>
-        <div className="flex flex-col w-full items-center space-y-6">
-          <RedBlueTeam
-            redTeam={redTeam}
-            setRedTeam={setRedTeam}
-            blueTeam={blueTeam}
-            setBlueTeam={setBlueTeam}
-            tracked={tracked}
-            setOpen={setWinOpen}
-            setWinner={setWinner}
-            user={user}
-            socket={socket}
-          />
-        </div>
+        <RedBlueTeam
+          redTeam={redTeam}
+          setRedTeam={setRedTeam}
+          blueTeam={blueTeam}
+          setBlueTeam={setBlueTeam}
+          tracked={tracked}
+          setOpen={setWinOpen}
+          setWinner={setWinner}
+          user={user}
+          socket={socket}
+        />
       </div>
+      <div className="text-center h-12 mt-6">
+        {(redTeam.find((s) => s.id === currentUser.id) ||
+          blueTeam.find((s) => s.id === currentUser.id)) &&
+          !dodged && (
+            <button
+              className="bg-blue-600 w-40 p-2 rounded text-center cursor-pointer disabled:cursor-not-allowed hover:bg-blue-500"
+              onClick={() => setDodgeOpen(true)}
+            >
+              Dodge
+            </button>
+          )}
+      </div>
+      <div className="flex flex-col w-full items-center space-y-6"></div>
     </div>
   );
 };
