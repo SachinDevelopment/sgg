@@ -19,8 +19,8 @@ export default function GameWin({
     if (
       redTeam.some((r) => r.champion === "Champion") ||
       blueTeam.some((b) => b.champion === "Champion") ||
-      redTeam.some((r) => !r.role) ||
-      blueTeam.some((b) => !b.role)
+      redTeam.some((r) => r.role === "Role") ||
+      blueTeam.some((b) => b.role === "Role")
     ) {
       console.error("Cant submit without champion or role entries");
       return;

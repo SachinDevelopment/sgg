@@ -12,7 +12,9 @@ const Randomizer = ({ socket, available, currentUser }) => {
   const [redTeam, setRedTeam] = useState([]);
   const [selected, setSelected] = useState([]);
   const [tracked, setTracked] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [dodged, setDodged] = useState(false);
+  const [winOpen, setWinOpen] = useState(false);
+  const [dodgeOpen, setDodgeOpen] = useState(false);
   const [winner, setWinner] = useState("");
   const { width } = useViewport();
   const { user } = useAuth0();
@@ -36,6 +38,8 @@ const Randomizer = ({ socket, available, currentUser }) => {
       const { red, blue } = msg;
       setRedTeam(red);
       setBlueTeam(blue);
+      setTracked(false);
+      setDodged(false);
     });
 
     socket.on("redUpdated", (msg) => {
@@ -98,8 +102,8 @@ const Randomizer = ({ socket, available, currentUser }) => {
         selected={selected}
         tracked={tracked}
         setTracked={setTracked}
-        open={open}
-        setOpen={setOpen}
+        winOpen={winOpen}
+        setWinOpen={setWinOpen}
         winner={winner}
         setWinner={setWinner}
         user={user}
@@ -109,6 +113,10 @@ const Randomizer = ({ socket, available, currentUser }) => {
         handleSelected={handleSelected}
         handleAvailable={handleAvailable}
         socket={socket}
+        dodged={dodged}
+        setDodged={setDodged}
+        dodgeOpen={dodgeOpen}
+        setDodgeOpen={setDodgeOpen}
       />
     ) : (
       <Mobile

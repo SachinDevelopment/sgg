@@ -56,20 +56,20 @@ export default function RedBlueTeam({
       <div>
         <div className="h-10 m-3 justify-center flex">
           {!tracked && user?.email === "sachinsunny2013@gmail.com" && (
-            <div
+            <button
               variant="dark"
               type="button"
               disabled={
                 redTeam.some((r) => r.champion === "Champion") ||
                 blueTeam.some((b) => b.champion === "Champion") ||
-                redTeam.some((r) => !r.role) ||
-                blueTeam.some((b) => !b.role)
+                redTeam.some((r) => r.role === "Role") ||
+                blueTeam.some((b) => b.role === "Role")
               }
               onClick={handleOpenDialog("blue")}
-              className="bg-darkBlue w-40 p-2 rounded text-center cursor-pointer"
+              className="bg-darkBlue w-40 p-2 rounded text-center cursor-pointer disabled:cursor-not-allowed hover:bg-blue-800"
             >
               Blue wins
-            </div>
+            </button>
           )}
         </div>
         <div className="text-2xl mb-2">
@@ -86,11 +86,11 @@ export default function RedBlueTeam({
               disabled={
                 redTeam.some((r) => r.champion === "Champion") ||
                 blueTeam.some((b) => b.champion === "Champion") ||
-                redTeam.some((r) => !r.role) ||
-                blueTeam.some((b) => !b.role)
+                redTeam.some((r) => r.role === "Role") ||
+                blueTeam.some((b) => b.role === "Role")
               }
               onClick={handleOpenDialog("red")}
-              className="bg-darkRed w-40 p-2 rounded text-center cursor-pointer"
+              className="bg-darkRed w-40 p-2 rounded text-center cursor-pointer disabled:cursor-not-allowed hover:bg-red-800"
             >
               Red wins
             </Button>
