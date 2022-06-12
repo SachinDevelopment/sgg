@@ -23,6 +23,7 @@ export const CHAMPIONS = [
   "Aatrox",
   "Ahri",
   "Akali",
+  "Akshan",
   "Alistar",
   "Amumu",
   "Anivia",
@@ -32,6 +33,7 @@ export const CHAMPIONS = [
   "Aurelion Sol",
   "Azir",
   "Bard",
+  "Bel'Veth",
   "Blitzcrank",
   "Brand",
   "Braum",
@@ -116,6 +118,7 @@ export const CHAMPIONS = [
   "Rammus",
   "Rek'Sai",
   "Rell",
+  "Renata Glasc",
   "Renekton",
   "Rengar",
   "Riven",
@@ -155,6 +158,7 @@ export const CHAMPIONS = [
   "Vayne",
   "Veigar",
   "Vel'Koz",
+  "Vex",
   "Vi",
   "Viego",
   "Viktor",
@@ -171,6 +175,7 @@ export const CHAMPIONS = [
   "Yuumi",
   "Zac",
   "Zed",
+  "Zeri",
   "Ziggs",
   "Zilean",
   "Zoe",
@@ -294,6 +299,7 @@ export const getChampNameforLink = (champName) => {
   if(champName === 'Tahm Kench') return 'TahmKench'
   if(champName === 'Xin Zhao') return 'XinZhao'
   if(champName === 'Aurelion Sol') return 'AurelionSol'
+  if(champName === 'Renata Glasc') return 'Renata'
   if(champName === 'Fiddlesticks') return 'FiddleSticks'
   if(champName==="Dr.Mundo") return 'DrMundo'
   if(champName==="Miss Fortune") return 'MissFortune'
