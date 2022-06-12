@@ -30,7 +30,7 @@ const Randomizer = ({
   setDodgeOpen,
 }) => {
   return (
-    <div className="flex flex-col items-center p-2">
+    <div className="flex flex-col items-center p-2 border-2 border-white">
       <GameWin
         open={winOpen}
         setOpen={setWinOpen}

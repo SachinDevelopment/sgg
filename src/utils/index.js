@@ -284,3 +284,18 @@ export const calculateRatingChange = (winnerSum, loserSum) => {
   const arr = [blueWinRating*inflationRate, blueLoseRating/inflationRate, redWinRating*inflationRate, redLoseRating/inflationRate];
   return arr.map((rating) => Number(rating).toFixed(0));
 };
+
+export const getChampNameforLink = (champName) => {
+  if(champName === 'Jarvan') return 'JarvanIV'
+  if(champName === 'Master Yi') return 'MasterYi'
+  if(champName === 'Tahm Kench') return 'TahmKench'
+  if(champName === 'Xin Zhao') return 'XinZhao'
+  if(champName === 'Aurelion Sol') return 'AurelionSol'
+  if(champName === 'Fiddlesticks') return 'FiddleSticks'
+  if(champName==="Dr.Mundo") return 'DrMundo'
+  if(champName==="Miss Fortune") return 'MissFortune'
+  champName = champName.replace("'","").toLowerCase();
+  if(champName === 'reksai') return 'RekSai'
+  if(champName === 'kogmaw') return 'KogMaw'
+  return champName[0].toUpperCase() + champName.substring(1);
+};

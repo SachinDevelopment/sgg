@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 export default function TeamsTable({ team, setTeam, color, socket }) {
   return (
-    <div className="flex flex-col space-y-1 w-full">
+    <div className="flex flex-col space-y-2 w-full">
       {team.map((player, index) => (
         <PlayerCard
           key={uuid()}

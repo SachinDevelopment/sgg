@@ -1,7 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
-import { importAll, CHAMPIONS, ROLES, tailwindWinratecolor } from "../../utils";
+import {
+  importAll,
+  CHAMPIONS,
+  ROLES,
+  getChampNameforLink,
+  wrToRank,
+} from "../../utils";
 
 import classnames from "classnames";
 import { Link } from "react-router-dom";
@@ -14,8 +20,12 @@ const fillIcon = positions["fill_icon.png"];
 const jungleIcon = positions["jungle_icon.png"];
 const laneIcon = positions["lane_icon.png"];
 
-const images = importAll(
+const championImages = importAll(
   require.context("../../../assets/champions", false, /\.png/)
+);
+
+const rankImages = importAll(
+  require.context("../../../assets/rankIcons", false, /\.svg/)
 );
 
 export default function PlayerCard({
@@ -26,62 +36,53 @@ export default function PlayerCard({
   color,
   socket,
 }) {
-
+  const rank = useMemo(
+    () => wrToRank(player?.rating, player?.wins + player?.loses),
+    [player]
+  );
+  console.log(championImages, rank);
   return (
     <div
       key={`${player.name}-${index}`}
       className={classnames(
-        "flex flex-col justify-between mb-1 w-96 rounded p-1 h-36 w-full overflow-hidden bg-gradient-to-l from-black",
-        { "to-darkRed": color === "red", "to-darkBlue": color === "blue" }
+        "flex flex-col justify-between mb-1 w-96 rounded h-48 w-full overflow-hidden bg-cover opacity-100 bg-gray-800 p-2",
+        { "bg-darkRed": color === "red", "bg-darkBlue": color === "blue" }
       )}
+      style={{
+        backgroundImage: `url('https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${getChampNameforLink(
+          player.champion
+        )}_0.jpg')`,
+      }}
     >
-      <div className="flex justify-between items-center h-full">
-        <Link to={`/lol/player/${player.id}/stats`}>
-          <div className="text-2xl mr-2 ml-2">{player.name}</div>
-        </Link>
-        <div className="flex items-end space-x-1 space-y-1 text-sm text-gray-600 justify-center">
-          {player?.fav_champs?.map((champ) => {
-            const winrate = (
-              (champ.wins / (champ.loses + champ.wins)) *
-              100
-            ).toFixed(0);
-            return (
-              <div
-                key={uuid()}
-                className={classnames("flex items-center justify-center min-w-max border-2 border-gray-500", {"border-yellow-500": winrate >= 70, "border-blue-500": winrate >= 60 && winrate < 70 }
-                 )}
-              >
-                <img
-                  className="w-10 h-10"
-                  alt=""
-                  src={images[`${champ.name}Square.png`]}
-                />
-              </div>
-            );
-          })}
+      <div className="flex justify-between items-start h-full p-4">
+        <div className="flex justify-center items-center  bg-slate-900 opacity-90 rounded h-16 p-2">
+          <div className="w-16">
+            <img src={rankImages[`${rank}.svg`]} alt="" />
+          </div>
+          <Link to={`/lol/player/${player.id}/stats`}>
+            <div className="text-3xl mr-2 ml-2 font-semibold opacity-100">
+              {player.name}
+            </div>
+          </Link>
         </div>
         <div className="flex flex-col justify-center items-center justify-center">
-          <div className="w-10">
-            {player.role === "Jungle" ? (
-              <img alt="" src={jungleIcon} />
-            ) : player.role === "Lane" ? (
-              <img alt="" src={laneIcon} />
-            ) : player.role === "Fill" ? (
-              <img alt="" src={fillIcon} />
-            ) : (
-              ""
-            )}
-          </div>
-          <div className="w-8">
-            {player.champion !== "Champion" &&
-              images[`${player.champion}Square.png`] && (
-                <img alt="" src={images[`${player.champion}Square.png`]} />
+          <div className="w-16 bg-slate-900 opacity-90 rounded">
+            <div>
+              {player.role === "Jungle" ? (
+                <img alt="" src={jungleIcon} />
+              ) : player.role === "Lane" ? (
+                <img alt="" src={laneIcon} />
+              ) : player.role === "Fill" ? (
+                <img alt="" src={fillIcon} />
+              ) : (
+                ""
               )}
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex bg-gray-700 m-1">
-        <div className="flex-1">
+      <div className="flex m-2 space-x-2">
+        <div className="flex-1 bg-slate-400 rounded">
           <Autocomplete
             value={player.role || ROLES[0]}
             onChange={(event, newInputValue) => {
@@ -94,7 +95,7 @@ export default function PlayerCard({
                 ...team.slice(index + 1),
               ]);
 
-              socket.emit(color === "red" ? "redUpdate" : "blueUpdate",[
+              socket.emit(color === "red" ? "redUpdate" : "blueUpdate", [
                 ...team.slice(0, index),
                 { ...team[index], role: newInputValue },
                 ...team.slice(index + 1),
@@ -106,7 +107,7 @@ export default function PlayerCard({
             )}
           />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 bg-slate-400 rounded">
           <Autocomplete
             value={player.champion || CHAMPIONS[0]}
             onChange={(event, newInputValue) => {

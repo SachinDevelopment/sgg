@@ -36,13 +36,6 @@ const Card = ({ player }) => {
           </div>
         </div>
       </div>
-      <div className="relative w-150 flex items-center opacity-80 overflow-hidden gradient-mask-l-0 rounded" >
-        <img className="top-0 absolute" src={`https://static.u.gg/assets/lol/riot_static/11.9.1/img/splash/${
-            player?.fav_champs[0]?.name === "Jarvan"
-              ? "JarvanIV"
-              : player?.fav_champs[0]?.name
-          }_0.jpg`} />
-      </div>
     </div>
   );
 };

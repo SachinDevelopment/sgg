@@ -34,7 +34,7 @@ const Card = ({ player }) => {
         </div>
       </div>
       <div className="opacity-90 gradient-mask-l-0 rounded" >
-        <img className="h-full w-full object-cover" src={`https://static.u.gg/assets/lol/riot_static/11.9.1/img/splash/${
+        <img className="h-full w-full object-cover" src={`https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${
             player?.fav_champs[0]?.name === "Jarvan"
               ? "JarvanIV"
               : player?.fav_champs[0]?.name
