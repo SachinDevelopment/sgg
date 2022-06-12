@@ -190,7 +190,10 @@ export const importAll = (r) => {
 };
 
 export const wrToRank = (rating, games = 10) => {
+  if(rating === 0)  return "Unranked";
+  
   if (!rating) return null;
+ 
   if (games < 10) {
     return "Unranked";
   }
