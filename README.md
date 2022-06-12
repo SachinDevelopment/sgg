@@ -18,3 +18,8 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### TODOS
+
+Add support for champs released after gwen
+Restyle randomizer
+Make api code go from very ugly to slight less ugly
