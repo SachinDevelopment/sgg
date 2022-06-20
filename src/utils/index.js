@@ -294,6 +294,7 @@ export const calculateRatingChange = (winnerSum, loserSum) => {
 };
 
 export const getChampNameforLink = (champName) => {
+  if(!champName) return "";
   if(champName === 'Jarvan') return 'JarvanIV'
   if(champName === 'Master Yi') return 'MasterYi'
   if(champName === 'Tahm Kench') return 'TahmKench'
@@ -303,7 +304,8 @@ export const getChampNameforLink = (champName) => {
   if(champName === 'Fiddlesticks') return 'FiddleSticks'
   if(champName==="Dr.Mundo") return 'DrMundo'
   if(champName==="Miss Fortune") return 'MissFortune'
-  champName = champName?.replace("'","").toLowerCase();
+  if(champName==="Wukong") return 'MonkeyKing'
+  champName = champName.replace("'","").toLowerCase();
   if(champName === 'reksai') return 'RekSai'
   if(champName === 'kogmaw') return 'KogMaw'
   return champName[0].toUpperCase() + champName.substring(1);

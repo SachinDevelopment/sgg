@@ -13,7 +13,7 @@ const App = () => {
   const [socket, setSocket] = useState(null);
   const { isAuthenticated, user } = useAuth0();
   const [available, setAvailable] = useState([]);
-  const [ currentUser, setCurrentUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState([]);
   const [online, setOnline] = useState([]);
 
   useEffect(() => {
@@ -22,15 +22,12 @@ const App = () => {
     });
   }, [setAvailable]);
 
-  
   useEffect(() => {
-    if(!user) return;
+    if (!user) return;
     axios.get(`${API_URL}/user/${user.sub}`).then(({ data }) => {
       setCurrentUser(data);
     });
   }, [user]);
-
-
 
   useEffect(() => {
     const newSocket = io(API_URL);
@@ -82,7 +79,13 @@ const App = () => {
           <Route path="/lol/player/:id/stats" element={<Player />} exact />
           <Route
             path="/lol/matchmaking"
-            element={<Randomizer socket={socket} available={online} currentUser={currentUser}/>}
+            element={
+              <Randomizer
+                socket={socket}
+                available={online}
+                currentUser={currentUser}
+              />
+            }
           />
           <Route path="/" element={<Leaderboard allPlayers={available} />} />
         </Routes>

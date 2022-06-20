@@ -12,6 +12,7 @@ export default function GameWin({
   blueTeam,
   redTeam,
   setTracked,
+  setDodged,
 }) {
   const map = "Summoner's Rift";
 
@@ -85,7 +86,10 @@ export default function GameWin({
         red,
         date: moment(Date.now()).tz("America/New_York").format("YYYY-MM-DD HH:mm:ss"),
       })
-      .then(() => setTracked(true));
+      .then(() => { 
+        setTracked(true);
+        setDodged(true);
+       });
   };
 
   return (

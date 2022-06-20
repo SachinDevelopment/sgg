@@ -38,6 +38,7 @@ const Randomizer = ({
         blueTeam={blueTeam}
         redTeam={redTeam}
         setTracked={setTracked}
+        setDodged={setDodged}
       />
       <GameDodge
         open={dodgeOpen}
