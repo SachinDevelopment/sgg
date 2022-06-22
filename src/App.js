@@ -5,6 +5,7 @@ import { io } from "socket.io-client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Player from "./components/Player";
 import Randomizer from "./components/Randomizer";
+import ChampStats from "./components/ChampStats";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 let API_URL = process.env.REACT_APP_API_URL;
@@ -17,6 +18,9 @@ const App = () => {
   const [online, setOnline] = useState([]);
 
   useEffect(() => {
+
+  }, [])
+  useEffect(() => {
     axios.get(`${API_URL}/players`).then(({ data }) => {
       setAvailable(data);
     });
@@ -27,7 +31,7 @@ const App = () => {
     axios.get(`${API_URL}/user/${user.sub}`).then(({ data }) => {
       setCurrentUser(data);
     });
-  }, [user]);
+  }, [user, setCurrentUser]);
 
   useEffect(() => {
     const newSocket = io(API_URL);
@@ -70,7 +74,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Header />
+        <Header currentUser={currentUser}/>
         <Routes className="p-2">
           <Route
             path="/lol/leaderboard"
@@ -87,6 +91,7 @@ const App = () => {
               />
             }
           />
+           <Route path="/lol/champions" element={<ChampStats />} />
           <Route path="/" element={<Leaderboard allPlayers={available} />} />
         </Routes>
       </div>

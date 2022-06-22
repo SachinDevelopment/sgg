@@ -13,6 +13,7 @@ export default function GameWin({
   redTeam,
   setTracked,
   setDodged,
+  handleRandomize
 }) {
   const map = "Summoner's Rift";
 
@@ -89,6 +90,7 @@ export default function GameWin({
       .then(() => { 
         setTracked(true);
         setDodged(true);
+        handleRandomize();
        });
   };
 

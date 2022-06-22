@@ -55,7 +55,7 @@ export default function RedBlueTeam({
     <div className="flex space-x-4">
       <div>
         <div className="h-10 m-3 justify-center flex">
-          {!tracked && user?.email === "sachinsunny2013@gmail.com" && (
+          {!tracked && (user?.email === "sachinsunny2013@gmail.com" || user?.email === "thaker.parth.311@gmail.com")  && (
             <button
               variant="dark"
               type="button"
@@ -79,7 +79,7 @@ export default function RedBlueTeam({
       </div>
       <div>
         <div className="h-10 m-3 justify-center flex">
-          {!tracked && user?.email === "sachinsunny2013@gmail.com" && (
+        {!tracked && (user?.email === "sachinsunny2013@gmail.com" || user?.email === "thaker.parth.311@gmail.com")  && (
             <Button
               variant="dark"
               type="button"

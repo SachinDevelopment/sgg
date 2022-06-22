@@ -2,17 +2,25 @@ import DesktopLeaderboard from "./desktop";
 import MobileLeaderboard from "./mobile";
 import { useViewport } from "../../context/ViewportProvider";
 import LoadingTrophy from "../LoadingTrophy";
+import { useEffect, useState } from "react";
 
-const Leaderboard = ({allPlayers}) => {
+const Leaderboard = ({ allPlayers }) => {
   const { width } = useViewport();
   const breakpoint = 1000;
+  const [showAnimation, setShowAnimation] = useState(true);
+  
+  useEffect(() => {
+    setTimeout(() => {
+      setShowAnimation(false);
+    }, 1000);
+  }, [setShowAnimation]);
 
-  if (!allPlayers.length)
-  return (
-    <div className="h-full flex justify-center items-center">
-      <LoadingTrophy />
-    </div>
-  );
+  if (!allPlayers.length || showAnimation)
+    return (
+      <div className="h-full flex justify-center items-center">
+        <LoadingTrophy />
+      </div>
+    );
 
   return (
     <div>
@@ -20,7 +28,11 @@ const Leaderboard = ({allPlayers}) => {
       <div className="text-center text-xs mb-4">
         (Click on a players name to see detailed stats)
       </div>
-      {width > breakpoint ? <DesktopLeaderboard allPlayers={allPlayers} /> : <MobileLeaderboard allPlayers={allPlayers}/>}
+      {width > breakpoint ? (
+        <DesktopLeaderboard allPlayers={allPlayers} />
+      ) : (
+        <MobileLeaderboard allPlayers={allPlayers} />
+      )}
     </div>
   );
 };

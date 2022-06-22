@@ -40,7 +40,6 @@ export default function PlayerCard({
     () => wrToRank(player?.rating, player?.wins + player?.loses),
     [player]
   );
-  console.log(championImages, rank);
   return (
     <div
       key={`${player.name}-${index}`}

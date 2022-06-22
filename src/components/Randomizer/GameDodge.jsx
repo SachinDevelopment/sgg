@@ -2,18 +2,8 @@ import React from "react";
 import GameDodgeDialog from "./GameDodgeDialog";
 import axios from "axios";
 import moment from "moment-timezone";
-import { makeStyles } from "@material-ui/core/styles";
 
 let API_URL = process.env.REACT_APP_API_URL;
-
-const useStyles = makeStyles(() => ({
-    ul: {
-      "& .MuiPaginationItem-root": {
-        color: "#fff",
-        backgroundColor: "#1f2937",
-      },
-    },
-  }));
 
 export default function GameDodge({
   open,
@@ -72,6 +62,7 @@ export default function GameDodge({
       })
       .then(() => {
         setTracked(true);
+        handleRandomize();
       });
   };
 

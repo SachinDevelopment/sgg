@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import RedBlueTeam from "./RedBlueTeam";
 import GameWin from "./GameWin";
 import classnames from "classnames";
@@ -39,6 +38,7 @@ const Randomizer = ({
         redTeam={redTeam}
         setTracked={setTracked}
         setDodged={setDodged}
+        handleRandomize={handleRandomize}
       />
       <GameDodge
         open={dodgeOpen}
@@ -49,7 +49,7 @@ const Randomizer = ({
         setTracked={setDodged}
         handleRandomize={handleRandomize}
       />
-      {user?.email === "sachinsunny2013@gmail.com" && (
+      {(user?.email === "sachinsunny2013@gmail.com" || user?.email === "thaker.parth.311@gmail.com") && (
         <div className="flex flex-col items-center mb-4">
           <button
             variant="dark"
@@ -63,7 +63,7 @@ const Randomizer = ({
         </div>
       )}
       <div>
-        {user?.email === "sachinsunny2013@gmail.com" && (
+        {(user?.email === "sachinsunny2013@gmail.com" || user?.email === "thaker.parth.311@gmail.com") && (
           <div className="flex justify-around max-h-96 h-96 overflow-y-hidden ">
             <div className="grid grid-cols-4 gap-2 w-2/5 h-min ">
               {available.map((a, idx) => (
