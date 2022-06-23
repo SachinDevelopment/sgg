@@ -4,7 +4,8 @@ import WinrateBar from '../Leaderboard/WinrateBar'
 
 export default function ChampsTable({ champs }) {
   return (
-    <table className="bg-gray-800 w-full font-semibold text-center">
+    <div className="w-full lg:w-1/2">
+    <table className="bg-gray-800 w-full font-semibold text-center rounded">
       <thead>
         <tr>
           <th className="h-16">Rank</th>
@@ -31,5 +32,6 @@ export default function ChampsTable({ champs }) {
         })}
       </tbody>
     </table>
+    </div>
   );
 }

@@ -20,10 +20,8 @@ const Stats = () => {
   </div>);
   
   return (
-    <div className="flex p-4 justify-center rounded">
-      <div className="w-3/5">
+    <div className="w-full p-2 flex justify-center">
         <ChampTable champs={champs} />
-      </div>
     </div>
   );
 };

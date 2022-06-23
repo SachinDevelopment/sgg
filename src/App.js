@@ -78,7 +78,7 @@ const App = () => {
         <Routes className="p-2">
           <Route
             path="/lol/leaderboard"
-            element={<Leaderboard allPlayers={available} />}
+            element={<Leaderboard allPlayers={available} setAvailable={setAvailable}/>}
           />
           <Route path="/lol/player/:id/stats" element={<Player />} exact />
           <Route

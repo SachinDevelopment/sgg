@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import TopPlayer from "./RankOneCard";
 import TopThree from "./TopPlayerCard";
 import AllPlayers from "./AllPlayersTable";

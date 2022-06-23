@@ -59,7 +59,6 @@ const Randomizer = ({ socket, available, currentUser }) => {
   }, [socket, setRedTeam, setBlueTeam, setSelected, user]);
 
   const handleRandomize = () => {
-    console.log('here', selected)
     socket.emit("randomize", selected);
   };
 

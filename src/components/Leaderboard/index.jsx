@@ -3,17 +3,27 @@ import MobileLeaderboard from "./mobile";
 import { useViewport } from "../../context/ViewportProvider";
 import LoadingTrophy from "../LoadingTrophy";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-const Leaderboard = ({ allPlayers }) => {
+let API_URL = process.env.REACT_APP_API_URL;
+
+const Leaderboard = ({ allPlayers, setAvailable }) => {
   const { width } = useViewport();
   const breakpoint = 1000;
   const [showAnimation, setShowAnimation] = useState(true);
-  
+
   useEffect(() => {
     setTimeout(() => {
       setShowAnimation(false);
     }, 1000);
   }, [setShowAnimation]);
+
+  useEffect(() => {
+    axios.get(`${API_URL}/players`).then(({ data }) => {
+      setAvailable(data);
+    });
+  }, [setAvailable]);
+
 
   if (!allPlayers.length || showAnimation)
     return (
@@ -23,11 +33,7 @@ const Leaderboard = ({ allPlayers }) => {
     );
 
   return (
-    <div>
-      <div className="text-center text-2xl font-semibold mt-4">Leaderboard</div>
-      <div className="text-center text-xs mb-4">
-        (Click on a players name to see detailed stats)
-      </div>
+    <div className=" mt-4">
       {width > breakpoint ? (
         <DesktopLeaderboard allPlayers={allPlayers} />
       ) : (
