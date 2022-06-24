@@ -12,7 +12,9 @@ export default function RedBlueTeam({
   setWinner,
   tracked,
   user,
-  socket
+  socket,
+  showAnimation,
+  setShowAnimation
 }) {
   const calculateTeamRating = () => {
     let sum = 0;
@@ -72,7 +74,7 @@ export default function RedBlueTeam({
             </button>
           )}
         </div>
-        <Team team={blueTeam} setTeam={setBlueTeam} color="blue" socket={socket}  />
+        <Team team={blueTeam} setTeam={setBlueTeam} color="blue" socket={socket}  showAnimation={showAnimation} setShowAnimation={setShowAnimation}/>
       </div>
       <div>
         <div className="h-10 m-3 justify-center flex">
@@ -93,7 +95,7 @@ export default function RedBlueTeam({
             </Button>
           )}
         </div>
-        <Team team={redTeam} setTeam={setRedTeam} color="red" socket={socket} />
+        <Team team={redTeam} setTeam={setRedTeam} color="red" socket={socket} showAnimation={showAnimation} setShowAnimation={setShowAnimation}/>
       </div>
     </div>
   );

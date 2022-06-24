@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Leaderboard from "./components/Leaderboard";
 import Rules from "./components/Rules";
-import { io } from "socket.io-client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Player from "./components/Player";
 import Randomizer from "./components/Randomizer";
@@ -12,11 +11,9 @@ import axios from "axios";
 let API_URL = process.env.REACT_APP_API_URL;
 
 const App = () => {
-  const [socket, setSocket] = useState(null);
   const { isAuthenticated, user } = useAuth0();
   const [available, setAvailable] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
-  const [online, setOnline] = useState([]);
 
   useEffect(() => {
 
@@ -33,34 +30,6 @@ const App = () => {
       setCurrentUser(data);
     });
   }, [user, setCurrentUser]);
-
-  useEffect(() => {
-    const newSocket = io(API_URL);
-    setSocket(newSocket);
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [setSocket]);
-
-  useEffect(() => {
-    if (!socket) return;
-
-    if (user) {
-      socket.emit("online", user.sub);
-    }
-
-    socket.on("playerOnline", (allPlayers) => {
-      const availableCopy = Array.from(available);
-      available.forEach((a) => {
-        if (allPlayers.find((all) => a.id === all)) {
-          a.online = true;
-        } else {
-          a.online = false;
-        }
-      });
-      setOnline(availableCopy);
-    });
-  }, [socket, user, setOnline, available]);
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -86,8 +55,7 @@ const App = () => {
             path="/lol/matchmaking"
             element={
               <Randomizer
-                socket={socket}
-                available={online}
+                available={available}
                 currentUser={currentUser}
               />
             }

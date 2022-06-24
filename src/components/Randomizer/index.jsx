@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import Desktop from "./desktop";
-import Mobile from "./mobile";
+import { io } from "socket.io-client";
 
 let API_URL = process.env.REACT_APP_API_URL;
 
-const Randomizer = ({ socket, available, currentUser }) => {
+const Randomizer = ({ available, currentUser }) => {
   const [blueTeam, setBlueTeam] = useState([]);
   const [redTeam, setRedTeam] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -16,10 +16,11 @@ const Randomizer = ({ socket, available, currentUser }) => {
   const [dodgeOpen, setDodgeOpen] = useState(false);
   const [winner, setWinner] = useState("");
   const { user } = useAuth0();
-  const breakpoint = 850;
+  const [socket, setSocket] = useState(null);
+  const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
-    if(!user) return;
+    if (!user) return;
 
     axios.get(`${API_URL}/randomizer/state`).then(({ data }) => {
       const { red, blue, selected } = data;
@@ -30,10 +31,19 @@ const Randomizer = ({ socket, available, currentUser }) => {
   }, [setRedTeam, setBlueTeam, setSelected, user]);
 
   useEffect(() => {
-    if (!socket || !user) return;
+    const newSocket = io(API_URL);
+    setSocket(newSocket);
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [setSocket]);
 
+  useEffect(() => {
+    if (!socket || !user) return;
+    console.log('here')
     socket.on("randomized", (msg) => {
-      const { red, blue } = msg;
+      const { red, blue, state } = msg;
+      setShowAnimation(true);
       setRedTeam(red);
       setBlueTeam(blue);
       setTracked(false);
@@ -42,12 +52,16 @@ const Randomizer = ({ socket, available, currentUser }) => {
 
     socket.on("redUpdated", (msg) => {
       const { red } = msg;
+      setShowAnimation(false);
       setRedTeam(red);
+      console.log('here 2')
     });
 
     socket.on("blueUpdated", (msg) => {
       const { blue } = msg;
+      setShowAnimation(false);
       setBlueTeam(blue);
+      console.log('here 3')
     });
 
     socket.on("selectedUpdated", (msg) => {
@@ -85,38 +99,42 @@ const Randomizer = ({ socket, available, currentUser }) => {
     socket.emit("selectedUpdate", [...selected, a]);
   };
 
-  if(!user) {
-    return <div className="flex text-center text-3xl pt-6 justify-center">
-      <h1 >Login to access matchmaking!</h1>
+  if (!user) {
+    return (
+      <div className="flex text-center text-3xl pt-6 justify-center">
+        <h1>Login to access matchmaking!</h1>
       </div>
+    );
   }
 
   return (
-      <Desktop
-        blueTeam={blueTeam}
-        setBlueTeam={setBlueTeam}
-        redTeam={redTeam}
-        setRedTeam={setRedTeam}
-        selected={selected}
-        tracked={tracked}
-        setTracked={setTracked}
-        winOpen={winOpen}
-        setWinOpen={setWinOpen}
-        winner={winner}
-        setWinner={setWinner}
-        user={user}
-        available={available}
-        currentUser={currentUser}
-        handleRandomize={handleRandomize}
-        handleSelected={handleSelected}
-        handleAvailable={handleAvailable}
-        socket={socket}
-        dodged={dodged}
-        setDodged={setDodged}
-        dodgeOpen={dodgeOpen}
-        setDodgeOpen={setDodgeOpen}
-      />);
-  };
-
+    <Desktop
+      blueTeam={blueTeam}
+      setBlueTeam={setBlueTeam}
+      redTeam={redTeam}
+      setRedTeam={setRedTeam}
+      selected={selected}
+      tracked={tracked}
+      setTracked={setTracked}
+      winOpen={winOpen}
+      setWinOpen={setWinOpen}
+      winner={winner}
+      setWinner={setWinner}
+      user={user}
+      available={available}
+      currentUser={currentUser}
+      handleRandomize={handleRandomize}
+      handleSelected={handleSelected}
+      handleAvailable={handleAvailable}
+      socket={socket}
+      dodged={dodged}
+      setDodged={setDodged}
+      dodgeOpen={dodgeOpen}
+      setDodgeOpen={setDodgeOpen}
+      showAnimation={showAnimation}
+      setShowAnimation={setShowAnimation}
+    />
+  );
+};
 
 export default Randomizer;

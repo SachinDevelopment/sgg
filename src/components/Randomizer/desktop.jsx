@@ -27,6 +27,8 @@ const Randomizer = ({
   setDodged,
   dodgeOpen,
   setDodgeOpen,
+  showAnimation,
+  setShowAnimation,
 }) => {
   return (
     <div className="flex flex-col items-center p-2">
@@ -105,6 +107,8 @@ const Randomizer = ({
           setWinner={setWinner}
           user={user}
           socket={socket}
+          showAnimation={showAnimation}
+          setShowAnimation={setShowAnimation}
         />
       </div>
       <div className="text-center h-12 mt-6">
