@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import Desktop from "./desktop";
 import Mobile from "./mobile";
-import { useViewport } from "../../context/ViewportProvider";
 
 let API_URL = process.env.REACT_APP_API_URL;
 
@@ -16,7 +15,6 @@ const Randomizer = ({ socket, available, currentUser }) => {
   const [winOpen, setWinOpen] = useState(false);
   const [dodgeOpen, setDodgeOpen] = useState(false);
   const [winner, setWinner] = useState("");
-  const { width } = useViewport();
   const { user } = useAuth0();
   const breakpoint = 850;
 
@@ -93,7 +91,7 @@ const Randomizer = ({ socket, available, currentUser }) => {
       </div>
   }
 
-    return width > breakpoint ? (
+  return (
       <Desktop
         blueTeam={blueTeam}
         setBlueTeam={setBlueTeam}
@@ -117,13 +115,7 @@ const Randomizer = ({ socket, available, currentUser }) => {
         setDodged={setDodged}
         dodgeOpen={dodgeOpen}
         setDodgeOpen={setDodgeOpen}
-      />
-    ) : (
-      <Mobile
-      blueTeam={blueTeam}
-      redTeam={redTeam} 
-      />
-    );
+      />);
   };
 
 

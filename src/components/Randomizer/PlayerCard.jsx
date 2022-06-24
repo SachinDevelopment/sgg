@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef, useEffect, useState } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import {
@@ -12,6 +12,7 @@ import {
 import classnames from "classnames";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
+import { motion } from "framer-motion";
 
 const positions = importAll(
   require.context("../../../assets/positions", false, /\.png/)
@@ -20,13 +21,17 @@ const fillIcon = positions["fill_icon.png"];
 const jungleIcon = positions["jungle_icon.png"];
 const laneIcon = positions["lane_icon.png"];
 
-const championImages = importAll(
-  require.context("../../../assets/champions", false, /\.png/)
-);
-
 const rankImages = importAll(
   require.context("../../../assets/rankIcons", false, /\.svg/)
 );
+
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 export default function PlayerCard({
   player,
@@ -40,8 +45,11 @@ export default function PlayerCard({
     () => wrToRank(player?.rating, player?.wins + player?.loses),
     [player]
   );
+  console.log(player)
+
   return (
-    <div
+    <motion.div
+    initial={ {opacity: 0, translateX: color === "blue" ? -10000 : 10000}} animate={ {opacity: 1, translateX: 0} } transition={{duration: 2, delay: index * 2 }}
       key={`${player.name}-${index}`}
       className={classnames(
         "flex flex-col justify-between mb-1 w-96 rounded h-48 w-full overflow-hidden bg-cover opacity-100 bg-gray-800 p-2",
@@ -132,6 +140,6 @@ export default function PlayerCard({
           />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

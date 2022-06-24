@@ -72,9 +72,6 @@ export default function RedBlueTeam({
             </button>
           )}
         </div>
-        <div className="text-2xl mb-2">
-          Average MMR: {`${blueRating} (+${blueWinRating} / ${blueLoseRating})`}
-        </div>
         <Team team={blueTeam} setTeam={setBlueTeam} color="blue" socket={socket}  />
       </div>
       <div>
@@ -95,9 +92,6 @@ export default function RedBlueTeam({
               Red wins
             </Button>
           )}
-        </div>
-        <div className="text-2xl mb-2">
-          Average MMR: {`${redRating} (+${redWinRating} / ${redLoseRating})`}
         </div>
         <Team team={redTeam} setTeam={setRedTeam} color="red" socket={socket} />
       </div>
