@@ -40,7 +40,6 @@ const Randomizer = ({ available, currentUser }) => {
 
   useEffect(() => {
     if (!socket || !user) return;
-    console.log('here')
     socket.on("randomized", (msg) => {
       const { red, blue, state } = msg;
       setShowAnimation(true);
@@ -54,18 +53,17 @@ const Randomizer = ({ available, currentUser }) => {
       const { red } = msg;
       setShowAnimation(false);
       setRedTeam(red);
-      console.log('here 2')
     });
 
     socket.on("blueUpdated", (msg) => {
       const { blue } = msg;
       setShowAnimation(false);
       setBlueTeam(blue);
-      console.log('here 3')
     });
 
     socket.on("selectedUpdated", (msg) => {
       const { selected } = msg;
+      setShowAnimation(false);
       setSelected(selected);
     });
   }, [socket, setRedTeam, setBlueTeam, setSelected, user]);
