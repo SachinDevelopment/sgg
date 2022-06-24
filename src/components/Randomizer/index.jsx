@@ -76,7 +76,7 @@ const Randomizer = ({ available, currentUser }) => {
     const selCopy = [...selected];
     selCopy.splice(idx, 1);
     setSelected(selCopy);
-
+    setShowAnimation(false);
     socket.emit("selectedUpdate", selCopy);
   };
 
