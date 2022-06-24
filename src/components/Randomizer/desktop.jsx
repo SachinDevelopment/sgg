@@ -3,7 +3,7 @@ import RedBlueTeam from "./RedBlueTeam";
 import GameWin from "./GameWin";
 import classnames from "classnames";
 import GameDodge from "./GameDodge";
-
+import background from "../bg.jpg";
 const Randomizer = ({
   blueTeam,
   setBlueTeam,
@@ -31,7 +31,7 @@ const Randomizer = ({
   setShowAnimation,
 }) => {
   return (
-    <div className="flex flex-col items-center p-2">
+    <div className="flex flex-col items-center p-2 bg-cover min-h-screen" style={{backgroundImage:`url(${background}`}}>
       <GameWin
         open={winOpen}
         setOpen={setWinOpen}
