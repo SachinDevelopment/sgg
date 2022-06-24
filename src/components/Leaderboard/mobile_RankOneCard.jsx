@@ -11,7 +11,7 @@ const Card = ({ player }) => {
   const rank = useMemo(() => wrToRank(player?.rating, player?.wins+player?.loses), [player]);
 
   return (
-    <div className="h-40 rounded-lg bg-gray-900 flex justify-between m-1">
+    <div className="h-40 rounded-lg bg-gray-900 flex justify-between">
       <div className="flex flex-col justify-between m-3 bg-gray-900">
         <div className="flex items-center justify-left space-x-4">
           <div className="h-6 pl-1 pr-1 bg-blue-900 rounded flex items-center justify-center text-blue-300 text-xl font-bold text-center">

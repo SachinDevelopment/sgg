@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Leaderboard from "./components/Leaderboard";
+import Rules from "./components/Rules";
 import { io } from "socket.io-client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Player from "./components/Player";
@@ -92,6 +93,7 @@ const App = () => {
             }
           />
            <Route path="/lol/champions" element={<ChampStats />} />
+           <Route path="/lol/rules" element={<Rules />} />
           <Route path="/" element={<Leaderboard allPlayers={available} />} />
         </Routes>
       </div>

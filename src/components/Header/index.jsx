@@ -7,29 +7,34 @@ import LogoutButton from "../LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useViewport } from "../../context/ViewportProvider";
 import { Link } from "react-router-dom";
+import { HelpOutline } from "@material-ui/icons";
 
 const Header = ({ currentUser }) => {
   const { user, isAuthenticated } = useAuth0();
   const { width } = useViewport();
-  const breakpoint = 560;
+  const breakpoint = 700;
 
   return (
     <div
       variant="dark"
-      className="p-2 bg-gray-900 font-semibold flex justify-between"
+      className="px-2 py-4 bg-gray-900 font-semibold flex justify-between"
     >
       <div className="flex items-center pl-2 space-x-6">
         <Link className="flex items-center" to="/lol/leaderboard">
           <EmojiEventsIcon />
-          <div className="text-xl">S.GG</div>
+          <div className="text-xl px-1">S.GG</div>
         </Link>
-        <Link className="flex items-center" to="/lol/matchmaking">
+        {width > breakpoint && (<Link className="flex items-center" to="/lol/matchmaking">
           <Casino />
-          <div>Matchmaking</div>
-        </Link>
+          <div className="px-1">Matchmaking</div>
+        </Link> )}
         <Link className="flex items-center" to="/lol/champions">
           <Assessment />
-          <div>Champions</div>
+          <div  className="px-1">Champions</div>
+        </Link>
+        <Link className="flex items-center" to="/lol/rules">
+          <HelpOutline />
+          <div  className="px-1">Info</div>
         </Link>
       </div>
       <div />
@@ -42,7 +47,6 @@ const Header = ({ currentUser }) => {
                 alt={currentUser?.name || user?.name}
                 className="rounded h-8 w-8"
               />
-              <div>{user.name}</div>
               <LogoutButton />
             </div>
           ) : (

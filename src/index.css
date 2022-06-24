@@ -5,4 +5,5 @@
 html, body, #root, .App {
   color: white;
   background-color: rgb(55 65 81);
+  /* font-family: Barlow; */
 }

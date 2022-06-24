@@ -18,7 +18,7 @@ const MobileLeaderboard = ({ allPlayers }) => {
   const [otherPlayers, setOtherPlayers] = useState([]);
 
   useEffect(() => {
-    if(!allPlayers) return;
+    if (!allPlayers) return;
     const sortedData = allPlayers.slice();
     sortedData.sort((a, b) => {
       const bGames = b.wins + b.loses;
@@ -33,19 +33,19 @@ const MobileLeaderboard = ({ allPlayers }) => {
     setTopPlayer(sortedData.slice(0, 1));
     setTopThree(sortedData.slice(1, 3));
     setOtherPlayers(sortedData.slice(3, sortedData.length));
-  }, [allPlayers ]);
+  }, [allPlayers]);
 
   return (
-    <div>
-      {topPlayer.map((player) => (
-        <TopPlayer player={player} />
-      ))}
+    <div className="px-4">
+        {topPlayer.map((player) => (
+          <TopPlayer player={player} />
+        ))}
       <div className="flex justify-around space-x-1 my-2">
         {topThree.map((player, index) => (
           <TopThree key={uuid()} player={player} ranking={index + 2} />
         ))}
       </div>
-      <table className="bg-gray-800 font-semibold w-full text-center">
+      <table className="bg-gray-800 font-semibold w-full text-center rounded-lg">
         <thead className="text-center">
           <tr className="">
             <th className="h-16">Rank</th>
