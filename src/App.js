@@ -8,16 +8,25 @@ import Randomizer from "./components/Randomizer";
 import ChampStats from "./components/ChampStats";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
+import { io } from "socket.io-client";
+
 let API_URL = process.env.REACT_APP_API_URL;
+
 
 const App = () => {
   const { isAuthenticated, user } = useAuth0();
   const [available, setAvailable] = useState([]);
   const [currentUser, setCurrentUser] = useState([]);
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
+    const newSocket = io(API_URL,  {transports: ["websocket"]});
+    setSocket(newSocket);
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [setSocket]);
 
-  }, [])
   useEffect(() => {
     axios.get(`${API_URL}/players`).then(({ data }) => {
       setAvailable(data);
@@ -57,6 +66,7 @@ const App = () => {
               <Randomizer
                 available={available}
                 currentUser={currentUser}
+                socket={socket}
               />
             }
           />

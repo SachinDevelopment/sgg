@@ -39,8 +39,6 @@ export default function PlayerCard({
     () => wrToRank(player?.rating, player?.wins + player?.loses),
     [player]
   );
-  console.log(player);
-console.log('showAnimation', showAnimation)
   return showAnimation ? (
     <motion.div
       initial={{ opacity: 0, translateX: color === "blue" ? -10000 : 10000 }}
@@ -52,9 +50,9 @@ console.log('showAnimation', showAnimation)
         { "bg-darkRed": color === "red", "bg-darkBlue": color === "blue" }
       )}
       style={{
-        backgroundImage: `url('https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${getChampNameforLink(
+        backgroundImage: player.champion !== "Champion" ? `url('https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${getChampNameforLink(
           player.champion
-        )}_0.jpg')`,
+        )}_0.jpg')` : "",
       }}
     >
       <div className="flex justify-between items-start h-full p-4">
@@ -147,9 +145,9 @@ console.log('showAnimation', showAnimation)
         { "bg-darkRed": color === "red", "bg-darkBlue": color === "blue" }
       )}
       style={{
-        backgroundImage: `url('https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${getChampNameforLink(
+        backgroundImage: player.champion !== "Champion" ? `url('https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${getChampNameforLink(
           player.champion
-        )}_0.jpg')`,
+        )}_0.jpg')` : "",
       }}
     >
       <div className="flex justify-between items-start h-full p-4">

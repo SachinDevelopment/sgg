@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import Desktop from "./desktop";
-import { io } from "socket.io-client";
 
 let API_URL = process.env.REACT_APP_API_URL;
 
-const Randomizer = ({ available, currentUser }) => {
+const Randomizer = ({ available, currentUser , socket}) => {
   const [blueTeam, setBlueTeam] = useState([]);
   const [redTeam, setRedTeam] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -16,7 +15,6 @@ const Randomizer = ({ available, currentUser }) => {
   const [dodgeOpen, setDodgeOpen] = useState(false);
   const [winner, setWinner] = useState("");
   const { user } = useAuth0();
-  const [socket, setSocket] = useState(null);
   const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
@@ -31,15 +29,8 @@ const Randomizer = ({ available, currentUser }) => {
   }, [setRedTeam, setBlueTeam, setSelected, user]);
 
   useEffect(() => {
-    const newSocket = io(API_URL);
-    setSocket(newSocket);
-    return () => {
-      newSocket.disconnect();
-    };
-  }, [setSocket]);
-
-  useEffect(() => {
     if (!socket || !user) return;
+    
     socket.on("randomized", (msg) => {
       const { red, blue, state } = msg;
       setShowAnimation(true);

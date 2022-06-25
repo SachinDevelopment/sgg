@@ -8,7 +8,6 @@ const images = importAll(
 );
 
 function GameCard({ game }) {
-  console.log("game", game);
   return (
     <div
       className={classNames("h-32 flex justify-between p-2", {
