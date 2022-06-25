@@ -17,7 +17,7 @@ const Header = ({ currentUser }) => {
   return (
     <div
       variant="dark"
-      className="px-2 py-4 bg-gray-900 font-semibold flex justify-between"
+      className="fixed top-0 left-0 px-2 py-4 bg-gray-900 font-semibold flex justify-between w-full z-50"
     >
       <div className="flex items-center pl-2 space-x-6">
         <Link className="flex items-center" to="/lol/leaderboard">

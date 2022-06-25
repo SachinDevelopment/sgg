@@ -31,7 +31,7 @@ const Randomizer = ({
   setShowAnimation,
 }) => {
   return (
-    <div className="flex flex-col items-center p-2 bg-cover min-h-screen min-w-full" style={{backgroundImage:`url(${background}`}}>
+    <div className="flex flex-col items-center py-4 bg-cover min-h-screen min-w-full mt-16" style={{backgroundImage:`url(${background}`}}>
       <GameWin
         open={winOpen}
         setOpen={setWinOpen}

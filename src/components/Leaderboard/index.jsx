@@ -33,7 +33,7 @@ const Leaderboard = ({ allPlayers, setAvailable }) => {
     );
 
   return (
-    <div className=" mt-4">
+    <div className="mt-20">
       {width > breakpoint ? (
         <DesktopLeaderboard allPlayers={allPlayers} />
       ) : (

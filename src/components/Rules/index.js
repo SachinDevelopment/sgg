@@ -6,7 +6,7 @@ const images = importAll(
 );
 const index = () => {
   return (
-    <div className="w-full h-full flex justify-center text-center bg-gray-800 py-8">
+    <div className="w-full h-full flex justify-center text-center bg-gray-800 py-8 mt-12">
       <div>
         <h1 className="text-2xl font-bold">Season 3 - 6/1/2022 - 12/31/2022</h1>
         <div className="flex justify-center py-8">

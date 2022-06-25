@@ -68,7 +68,7 @@ const Player = ({ playerId }) => {
   };
 
   return (
-    <div className="flex flex-col justify-start space-y-4 mb-12 h-auto p-2">
+    <div className="flex flex-col justify-start space-y-4 mb-12 h-auto p-2 mt-12">
       <div className="flex flex-col bg-gray-800 mt-3 rounded p-2 h-60">
         <div className="flex justify-start space-x-5 h-8 ml-3">
           {playerData?.prevRatings?.map((rating) =>
