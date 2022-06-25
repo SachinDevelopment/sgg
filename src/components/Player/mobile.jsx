@@ -136,12 +136,12 @@ const Player = ({ playerId }) => {
             <div className="flex items-center justify-between">
                 <img className="h-16 w-16"src={
                   rank === "Unranked"
-                    ? positions[`Position_Iron-Bot.png`]
-                    : positions[`Position_${rank}-Bot.png`]
+                    ? positions[`Position_Iron-Top.png`]
+                    : positions[`Position_${rank}-Top.png`]
                 } alt="" />
               <div className="flex flex-col flex-1 text-sm">
-                <div className="text-left">{playerData?.botWR}% WR</div>
-                <div className="text-left">{playerData?.bot} Played</div>
+                <div className="text-left">{playerData?.topWR}% WR</div>
+                <div className="text-left">{playerData?.top} Played</div>
               </div>
             </div>
           </div>
