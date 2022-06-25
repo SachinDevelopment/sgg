@@ -174,9 +174,9 @@ const Player = ({ playerId }) => {
                 />
               </div>
               <div className="flex flex-col flex-1">
-                <div className="text-left text-lg">{playerData?.botWR}% WR</div>
+                <div className="text-left text-lg">{playerData?.midWR}% WR</div>
                 <div className="text-left text-lg">
-                  {playerData?.bot} Played
+                  {playerData?.mid} Played
                 </div>
               </div>
             </div>
