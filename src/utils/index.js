@@ -182,7 +182,7 @@ export const CHAMPIONS = [
   "Zyra",
 ];
 
-export const ROLES = ["Role", "Lane", "Jungle"];
+export const ROLES = ["Role", "Mid", "Top", "Bot", "Support", "Jungle"];
 
 export const MAPS = ["Summoner's Rift"];
 
