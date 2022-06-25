@@ -10,13 +10,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Stats from "./Stats";
 import classnames from "classnames";
 
-const ranks = importAll(require.context("../../../assets/ranks", false, /\.png/));
+const ranks = importAll(
+  require.context("../../../assets/ranks", false, /\.png/)
+);
 const borders = importAll(
   require.context("../../../assets/borders", false, /\.png/)
 );
-const positions = importAll(require.context("../../../assets/positions", false, /\.png/))
-const jungleIcon = positions['jungle_icon.png'];
-const laneIcon = positions['lane_icon.png'];
+const positions = importAll(
+  require.context("../../../assets/positions", false, /\.png/)
+);
 const LIMIT = 5;
 
 const useStyles = makeStyles(() => ({
@@ -30,23 +32,23 @@ const useStyles = makeStyles(() => ({
 
 let API_URL = process.env.REACT_APP_API_URL;
 
-const Player = ({playerId}) => {
+const Player = ({ playerId }) => {
   const classes = useStyles();
   const [playerData, setPlayerData] = useState([]);
   const [playerGames, setPlayerGames] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const gamesCount = useMemo(() => playerData.wins + playerData.loses, [
-    playerData,
-  ]);
+  const gamesCount = useMemo(
+    () => playerData.wins + playerData.loses,
+    [playerData]
+  );
   const overallWr = useMemo(
     () =>
       gamesCount ? Number((playerData.wins / gamesCount) * 100).toFixed(0) : 0,
     [playerData, gamesCount]
   );
-  const rankImage = useMemo(
-    () =>
-      `${wrToRank(playerData.rating, playerData.wins + playerData.loses)}.png`,
+  const rank = useMemo(
+    () => `${wrToRank(playerData.rating, playerData.wins + playerData.loses)}`,
     [playerData]
   );
 
@@ -97,7 +99,7 @@ const Player = ({playerId}) => {
                 "w-40 mb-4": !borders[borderImage],
               })}
               alt=""
-              src={ranks[rankImage]}
+              src={ranks[rank + ".png"]}
             />
             {borders[borderImage] ? (
               <img
@@ -141,7 +143,15 @@ const Player = ({playerId}) => {
           </div>
           <div className="flex flex-col items-center justify-center font-semibold">
             <div className="flex items-center justify-between">
-              <img className="h-24 w-24" src={jungleIcon} alt="" />
+              <img
+                className="h-16 w-16"
+                src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Jungle.png`]
+                    : positions[`Position_${rank}-Jungle.png`]
+                }
+                alt=""
+              />
               <div className="flex flex-col flex-1">
                 <div className="text-left text-lg">
                   {playerData?.jungleWR}% WR
@@ -152,15 +162,40 @@ const Player = ({playerId}) => {
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <div className="h-24 w-24 flex items-center justify-center">
-                <img className="h-20 w-20" src={laneIcon} alt="" />
+              <div className="flex items-center justify-center">
+                <img
+                  className="h-16 w-16"
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Mid.png`]
+                      : positions[`Position_${rank}-Mid.png`]
+                  }
+                  alt=""
+                />
               </div>
               <div className="flex flex-col flex-1">
+                <div className="text-left text-lg">{playerData?.botWR}% WR</div>
                 <div className="text-left text-lg">
-                  {playerData?.laneWR}% WR
+                  {playerData?.bot} Played
                 </div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center justify-center">
+                <img
+                  className="h-16 w-16"
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Top.png`]
+                      : positions[`Position_${rank}-Top.png`]
+                  }
+                  alt=""
+                />
+              </div>
+              <div className="flex flex-col flex-1">
+                <div className="text-left text-lg">{playerData?.topWR}% WR</div>
                 <div className="text-left text-lg">
-                  {playerData?.lane} Played
+                  {playerData?.top} Played
                 </div>
               </div>
             </div>

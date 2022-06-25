@@ -31,7 +31,7 @@ const Randomizer = ({
   setShowAnimation,
 }) => {
   return (
-    <div className="flex flex-col items-center p-2 bg-cover min-h-screen" style={{backgroundImage:`url(${background}`}}>
+    <div className="flex flex-col items-center p-2 bg-cover min-h-screen min-w-full" style={{backgroundImage:`url(${background}`}}>
       <GameWin
         open={winOpen}
         setOpen={setWinOpen}
@@ -66,7 +66,7 @@ const Randomizer = ({
       )}
       <div>
         {(user?.email === "sachinsunny2013@gmail.com" || user?.email === "thaker.parth.311@gmail.com") && (
-          <div className="flex justify-around max-h-96 h-96 overflow-y-hidden ">
+          <div className="flex justify-around max-h-96 h-96 overflow-y-hidden w-full ">
             <div className="grid grid-cols-4 gap-2 w-2/5 h-min ">
               {available.map((a, idx) => (
                 <div

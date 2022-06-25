@@ -8,9 +8,9 @@ import { PieChart } from "react-minimal-pie-chart";
 import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core/styles";
 
-const positions = importAll(require.context("../../../assets/positions", false, /\.png/))
-const jungleIcon = positions['jungle_icon.png'];
-const laneIcon = positions['lane_icon.png'];
+const positions = importAll(
+  require.context("../../../assets/positions", false, /\.png/)
+);
 const LIMIT = 5;
 
 const useStyles = makeStyles(() => ({
@@ -24,19 +24,26 @@ const useStyles = makeStyles(() => ({
 
 let API_URL = process.env.REACT_APP_API_URL;
 
-const Player = ({playerId}) => {
+const Player = ({ playerId }) => {
   const classes = useStyles();
   const [playerData, setPlayerData] = useState([]);
   const [playerGames, setPlayerGames] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const gamesCount = useMemo(() => playerData.wins + playerData.loses, [
-    playerData,
-  ]);
+  const gamesCount = useMemo(
+    () => playerData.wins + playerData.loses,
+    [playerData]
+  );
+
   const overallWr = useMemo(
     () =>
       gamesCount ? Number((playerData.wins / gamesCount) * 100).toFixed(0) : 0,
     [playerData, gamesCount]
+  );
+
+  const rank = useMemo(
+    () => `${wrToRank(playerData.rating, playerData.wins + playerData.loses)}`,
+    [playerData]
   );
 
   useEffect(() => {
@@ -76,10 +83,8 @@ const Player = ({playerId}) => {
         </div>
         <div className="flex justify-between bg-gradient-to-r rounded h-56 mr-4">
           <div className="flex items-center justify-center relative w-44">
-            <div  className="text-center">
-              <div className="font-bold">
-                {playerData.name}
-              </div>
+            <div className="text-center">
+              <div className="font-bold">{playerData.name}</div>
               <div className="text-sm">
                 {playerData.wins}-{playerData.loses} ({playerData.winrate}%)
               </div>
@@ -107,66 +112,75 @@ const Player = ({playerId}) => {
           </div>
           <div className="flex flex-col items-center justify-center font-semibold">
             <div className="flex items-center justify-between">
-              <img className="h-20 w-20" src={jungleIcon} alt="" />
+              <img className="h-16 w-16"  src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Jungle.png`]
+                    : positions[`Position_${rank}-Jungle.png`]
+                } alt="" />
               <div className="flex flex-col flex-1 text-sm">
-                <div className="text-left ">
-                  {playerData?.jungleWR}% WR
-                </div>
-                <div className="text-left">
-                  {playerData?.jungle} Played
-                </div>
+                <div className="text-left ">{playerData?.jungleWR}% WR</div>
+                <div className="text-left">{playerData?.jungle} Played</div>
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <div className="h-20 w-20 flex items-center justify-center">
-                <img className="h-16 w-16" src={laneIcon} alt="" />
-              </div>
+                <img className="h-16 w-16"src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Mid.png`]
+                    : positions[`Position_${rank}-Mid.png`]
+                } alt="" />
               <div className="flex flex-col flex-1 text-sm">
-                <div className="text-left">
-                  {playerData?.laneWR}% WR
-                </div>
-                <div className="text-left">
-                  {playerData?.lane} Played
-                </div>
+                <div className="text-left">{playerData?.midWR}% WR</div>
+                <div className="text-left">{playerData?.mid} Played</div>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+                <img className="h-16 w-16"src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Bot.png`]
+                    : positions[`Position_${rank}-Bot.png`]
+                } alt="" />
+              <div className="flex flex-col flex-1 text-sm">
+                <div className="text-left">{playerData?.botWR}% WR</div>
+                <div className="text-left">{playerData?.bot} Played</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-        <div className="flex flex-col justify-between items-start overflow-hidden space-y-4">
-          <div className="border-gray-500 divide-y divide-gray-500 w-full text-gray-200 bg-gray-800 p-2">
-            {playerData?.champs?.length ? (
-              playerData.champs
-                .slice(0, 10)
-                .map((champ) => <ChampCard key={uuid()} champ={champ} />)
-            ) : (
-              <div className="h-32 flex items-center justify-center">
-                No Champion History
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col space-y-4">
-            <div className="space-y-2">
-              {playerGames.length ? (
-                playerGames.map((game) => <GameCard key={uuid()} game={game} />)
-              ) : (
-                <div className="h-96 bg-gray-700 flex items-center justify-center font-bold">
-                  Go play some games
-                </div>
-              )}
+      <div className="flex flex-col justify-between items-start overflow-hidden space-y-4">
+        <div className="border-gray-500 divide-y divide-gray-500 w-full text-gray-200 bg-gray-800 p-2">
+          {playerData?.champs?.length ? (
+            playerData.champs
+              .slice(0, 10)
+              .map((champ) => <ChampCard key={uuid()} champ={champ} />)
+          ) : (
+            <div className="h-32 flex items-center justify-center">
+              No Champion History
             </div>
-            <div className="flex justify-center">
-              <Pagination
-                variant="outlined"
-                shape="rounded"
-                count={Math.ceil(total / LIMIT)}
-                page={page}
-                classes={{ ul: classes.ul }}
-                onChange={onPageChange}
-              />
-          </div>
-          </div>
+          )}
+        </div>
+      </div>
+      <div className="flex flex-col space-y-4">
+        <div className="space-y-2">
+          {playerGames.length ? (
+            playerGames.map((game) => <GameCard key={uuid()} game={game} />)
+          ) : (
+            <div className="h-96 bg-gray-700 flex items-center justify-center font-bold">
+              Go play some games
+            </div>
+          )}
+        </div>
+        <div className="flex justify-center">
+          <Pagination
+            variant="outlined"
+            shape="rounded"
+            count={Math.ceil(total / LIMIT)}
+            page={page}
+            classes={{ ul: classes.ul }}
+            onChange={onPageChange}
+          />
+        </div>
+      </div>
     </div>
   );
 };

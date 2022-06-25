@@ -17,10 +17,6 @@ import { motion } from "framer-motion";
 const positions = importAll(
   require.context("../../../assets/positions", false, /\.png/)
 );
-const fillIcon = positions["fill_icon.png"];
-const jungleIcon = positions["jungle_icon.png"];
-const laneIcon = positions["lane_icon.png"];
-
 const rankImages = importAll(
   require.context("../../../assets/rankIcons", false, /\.svg/)
 );
@@ -46,7 +42,7 @@ export default function PlayerCard({
       transition={{ duration: 2, delay: index * 2 }}
       key={`${player.name}-${index}`}
       className={classnames(
-        "flex flex-col justify-between mb-1 w-96 rounded h-48 w-full overflow-hidden bg-cover opacity-100 bg-gray-800 p-2",
+        "flex flex-col justify-between mb-1 w-96 rounded h-48  overflow-hidden bg-cover opacity-100 bg-gray-800 p-2",
         { "bg-darkRed": color === "red", "bg-darkBlue": color === "blue" }
       )}
       style={{
@@ -70,14 +66,36 @@ export default function PlayerCard({
           <div className="w-16 bg-slate-900 opacity-90 rounded">
             <div>
               {player.role === "Jungle" ? (
-                <img alt="" src={jungleIcon} />
-              ) : player.role === "Lane" ? (
-                <img alt="" src={laneIcon} />
-              ) : player.role === "Fill" ? (
-                <img alt="" src={fillIcon} />
-              ) : (
-                ""
-              )}
+                <img alt="" src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Jungle.png`]
+                    : positions[`Position_${rank}-Jungle.png`]
+                } />
+              ) : player.role === "Top" ? (
+                <img alt="" src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Top.png`]
+                    : positions[`Position_${rank}-Top.png`]
+                } />
+              ) : player.role === "Bot" ? (
+                <img alt="" src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Bot.png`]
+                    : positions[`Position_${rank}-Bot.png`]
+                } />
+              ) : player.role === "Support" ? (
+                <img alt="" src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Support.png`]
+                    : positions[`Position_${rank}-Support.png`]
+                } />
+               ) : player.role === "Mid" ? (
+                  <img alt="" src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Mid.png`]
+                      : positions[`Position_${rank}-Mid.png`]
+                  } />
+                ) : "" }
             </div>
           </div>
         </div>
@@ -141,7 +159,7 @@ export default function PlayerCard({
     <div
       key={`${player.name}-${index}`}
       className={classnames(
-        "flex flex-col justify-between mb-1 w-96 rounded h-48 w-full overflow-hidden bg-cover opacity-100 bg-gray-800 p-2",
+        "flex flex-col justify-between mb-1 w-96 rounded h-48 overflow-hidden bg-cover opacity-100 bg-gray-800 p-2",
         { "bg-darkRed": color === "red", "bg-darkBlue": color === "blue" }
       )}
       style={{
@@ -163,16 +181,38 @@ export default function PlayerCard({
         </div>
         <div className="flex flex-col justify-center items-center justify-center">
           <div className="w-16 bg-slate-900 opacity-90 rounded">
-            <div>
+          <div>
               {player.role === "Jungle" ? (
-                <img alt="" src={jungleIcon} />
-              ) : player.role === "Lane" ? (
-                <img alt="" src={laneIcon} />
-              ) : player.role === "Fill" ? (
-                <img alt="" src={fillIcon} />
-              ) : (
-                ""
-              )}
+                <img alt="" src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Jungle.png`]
+                    : positions[`Position_${rank}-Jungle.png`]
+                } />
+              ) : player.role === "Top" ? (
+                <img alt="" src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Top.png`]
+                    : positions[`Position_${rank}-Top.png`]
+                } />
+              ) : player.role === "Bot" ? (
+                <img alt="" src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Bot.png`]
+                    : positions[`Position_${rank}-Bot.png`]
+                } />
+              ) : player.role === "Support" ? (
+                <img alt="" src={
+                  rank === "Unranked"
+                    ? positions[`Position_Iron-Support.png`]
+                    : positions[`Position_${rank}-Support.png`]
+                } />
+               ) : player.role === "Mid" ? (
+                  <img alt="" src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Mid.png`]
+                      : positions[`Position_${rank}-Mid.png`]
+                  } />
+                ) : "" }
             </div>
           </div>
         </div>
