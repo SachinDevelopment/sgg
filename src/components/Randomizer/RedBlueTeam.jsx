@@ -13,7 +13,8 @@ export default function RedBlueTeam({
   user,
   socket,
   showAnimation,
-  setShowAnimation
+  setShowAnimation,
+  currentUser
 }) {
   const handleOpenDialog = (winner) => () => {
     setWinner(winner);
@@ -41,7 +42,7 @@ export default function RedBlueTeam({
             </button>
           )}
         </div>
-        <Team team={blueTeam} setTeam={setBlueTeam} color="blue" socket={socket}  showAnimation={showAnimation} setShowAnimation={setShowAnimation}/>
+        <Team team={blueTeam} setTeam={setBlueTeam} color="blue" socket={socket}  showAnimation={showAnimation} setShowAnimation={setShowAnimation} currentUser={currentUser}/>
       </div>
       <div>
         <div className="h-10 m-3 justify-center flex">
@@ -62,7 +63,7 @@ export default function RedBlueTeam({
             </Button>
           )}
         </div>
-        <Team team={redTeam} setTeam={setRedTeam} color="red" socket={socket} showAnimation={showAnimation} setShowAnimation={setShowAnimation}/>
+        <Team team={redTeam} setTeam={setRedTeam} color="red" socket={socket} showAnimation={showAnimation} setShowAnimation={setShowAnimation} currentUser={currentUser}/>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import Desktop from "./desktop";
 
 let API_URL = process.env.REACT_APP_API_URL;
 
-const Randomizer = ({ available, currentUser , socket}) => {
+const Randomizer = ({ available, currentUser, socket }) => {
   const [blueTeam, setBlueTeam] = useState([]);
   const [redTeam, setRedTeam] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -23,10 +23,11 @@ const Randomizer = ({ available, currentUser , socket}) => {
 
     axios.get(`${API_URL}/randomizer/state`).then(({ data }) => {
       const { red, blue, selected, dodged, dodgerName } = data;
+      setShowAnimation(false);
       setRedTeam(red);
       setBlueTeam(blue);
       setSelected(selected);
-      if(dodged){
+      if (dodged) {
         setDodged(true);
         setDodgedPlayer(dodgerName);
         setTracked(true);
@@ -36,7 +37,7 @@ const Randomizer = ({ available, currentUser , socket}) => {
 
   useEffect(() => {
     if (!socket || !user) return;
-    
+
     socket.on("randomized", (msg) => {
       const { red, blue } = msg;
       setShowAnimation(true);
@@ -108,6 +109,12 @@ const Randomizer = ({ available, currentUser , socket}) => {
         <h1>Login to access matchmaking!</h1>
       </div>
     );
+  }
+
+  if (!socket.connected) {
+    <div className="flex text-center text-3xl pt-6 justify-center">
+      <h1>No connection - Refresh the page</h1>
+    </div>;
   }
 
   return (

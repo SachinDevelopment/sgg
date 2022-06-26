@@ -12,6 +12,8 @@ import {
 import classnames from "classnames";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import { motion } from "framer-motion";
 
 const positions = importAll(
@@ -29,12 +31,29 @@ export default function PlayerCard({
   color,
   socket,
   showAnimation,
-  setShowAnimation
+  setShowAnimation,
+  currentUser,
 }) {
   const rank = useMemo(
     () => wrToRank(player?.rating, player?.wins + player?.loses),
     [player]
   );
+
+  const readyToggle = () => {
+    setTeam([
+      ...team.slice(0, index),
+      { ...team[index], ready: !player.ready },
+      ...team.slice(index + 1),
+    ]);
+
+    setShowAnimation(false);
+    socket.emit(color === "red" ? "redUpdate" : "blueUpdate", [
+      ...team.slice(0, index),
+      { ...team[index], ready: !player.ready },
+      ...team.slice(index + 1),
+    ]);
+  };
+
   return showAnimation ? (
     <motion.div
       initial={{ opacity: 0, translateX: color === "blue" ? -10000 : 10000 }}
@@ -46,9 +65,12 @@ export default function PlayerCard({
         { "bg-darkRed": color === "red", "bg-darkBlue": color === "blue" }
       )}
       style={{
-        backgroundImage: player.champion !== "Champion" ? `url('https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${getChampNameforLink(
-          player.champion
-        )}_0.jpg')` : "",
+        backgroundImage:
+          player.champion !== "Champion"
+            ? `url('https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${getChampNameforLink(
+                player.champion
+              )}_0.jpg')`
+            : "",
       }}
     >
       <div className="flex justify-between items-start h-full p-4">
@@ -66,42 +88,59 @@ export default function PlayerCard({
           <div className="w-16 bg-slate-900 opacity-90 rounded">
             <div>
               {player.role === "Jungle" ? (
-                <img alt="" src={
-                  rank === "Unranked"
-                    ? positions[`Position_Iron-Jungle.png`]
-                    : positions[`Position_${rank}-Jungle.png`]
-                } />
+                <img
+                  alt=""
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Jungle.png`]
+                      : positions[`Position_${rank}-Jungle.png`]
+                  }
+                />
               ) : player.role === "Top" ? (
-                <img alt="" src={
-                  rank === "Unranked"
-                    ? positions[`Position_Iron-Top.png`]
-                    : positions[`Position_${rank}-Top.png`]
-                } />
+                <img
+                  alt=""
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Top.png`]
+                      : positions[`Position_${rank}-Top.png`]
+                  }
+                />
               ) : player.role === "Bot" ? (
-                <img alt="" src={
-                  rank === "Unranked"
-                    ? positions[`Position_Iron-Bot.png`]
-                    : positions[`Position_${rank}-Bot.png`]
-                } />
+                <img
+                  alt=""
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Bot.png`]
+                      : positions[`Position_${rank}-Bot.png`]
+                  }
+                />
               ) : player.role === "Support" ? (
-                <img alt="" src={
-                  rank === "Unranked"
-                    ? positions[`Position_Iron-Support.png`]
-                    : positions[`Position_${rank}-Support.png`]
-                } />
-               ) : player.role === "Mid" ? (
-                  <img alt="" src={
+                <img
+                  alt=""
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Support.png`]
+                      : positions[`Position_${rank}-Support.png`]
+                  }
+                />
+              ) : player.role === "Mid" ? (
+                <img
+                  alt=""
+                  src={
                     rank === "Unranked"
                       ? positions[`Position_Iron-Mid.png`]
                       : positions[`Position_${rank}-Mid.png`]
-                  } />
-                ) : "" }
+                  }
+                />
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
       </div>
-      <div className="flex m-2 space-x-2">
-        <div className="flex-1 bg-slate-400 rounded">
+      <div className="flex m-2 space-x-2 items-center cursor-pointer">
+        <div className="w-32 bg-slate-400 rounded">
           <Autocomplete
             value={player.role || ROLES[0]}
             onChange={(event, newInputValue) => {
@@ -139,7 +178,6 @@ export default function PlayerCard({
                 { ...team[index], champion: newInputValue },
                 ...team.slice(index + 1),
               ]);
-
               setShowAnimation(false);
               socket.emit(color === "red" ? "redUpdate" : "blueUpdate", [
                 ...team.slice(0, index),
@@ -153,6 +191,17 @@ export default function PlayerCard({
             )}
           />
         </div>
+        {player.id === currentUser.id ? (
+          player.ready ? (
+            <ThumbUpIcon onClick={readyToggle} />
+          ) : (
+            <ThumbDownIcon onClick={readyToggle} />
+          )
+        ) : player.ready ? (
+          <div className="w-8 h-8 bg-green-400 rounded flex justify-center items-center" />
+        ) : (
+          <div className="w-8 h-8 bg-red-400 rounded flex justify-center items-center" />
+        )}
       </div>
     </motion.div>
   ) : (
@@ -163,9 +212,12 @@ export default function PlayerCard({
         { "bg-darkRed": color === "red", "bg-darkBlue": color === "blue" }
       )}
       style={{
-        backgroundImage: player.champion !== "Champion" ? `url('https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${getChampNameforLink(
-          player.champion
-        )}_0.jpg')` : "",
+        backgroundImage:
+          player.champion !== "Champion"
+            ? `url('https://static.u.gg/assets/lol/riot_static/12.11.1/img/splash/${getChampNameforLink(
+                player.champion
+              )}_0.jpg')`
+            : "",
       }}
     >
       <div className="flex justify-between items-start h-full p-4">
@@ -181,44 +233,61 @@ export default function PlayerCard({
         </div>
         <div className="flex flex-col justify-center items-center justify-center">
           <div className="w-16 bg-slate-900 opacity-90 rounded">
-          <div>
+            <div>
               {player.role === "Jungle" ? (
-                <img alt="" src={
-                  rank === "Unranked"
-                    ? positions[`Position_Iron-Jungle.png`]
-                    : positions[`Position_${rank}-Jungle.png`]
-                } />
+                <img
+                  alt=""
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Jungle.png`]
+                      : positions[`Position_${rank}-Jungle.png`]
+                  }
+                />
               ) : player.role === "Top" ? (
-                <img alt="" src={
-                  rank === "Unranked"
-                    ? positions[`Position_Iron-Top.png`]
-                    : positions[`Position_${rank}-Top.png`]
-                } />
+                <img
+                  alt=""
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Top.png`]
+                      : positions[`Position_${rank}-Top.png`]
+                  }
+                />
               ) : player.role === "Bot" ? (
-                <img alt="" src={
-                  rank === "Unranked"
-                    ? positions[`Position_Iron-Bot.png`]
-                    : positions[`Position_${rank}-Bot.png`]
-                } />
+                <img
+                  alt=""
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Bot.png`]
+                      : positions[`Position_${rank}-Bot.png`]
+                  }
+                />
               ) : player.role === "Support" ? (
-                <img alt="" src={
-                  rank === "Unranked"
-                    ? positions[`Position_Iron-Support.png`]
-                    : positions[`Position_${rank}-Support.png`]
-                } />
-               ) : player.role === "Mid" ? (
-                  <img alt="" src={
+                <img
+                  alt=""
+                  src={
+                    rank === "Unranked"
+                      ? positions[`Position_Iron-Support.png`]
+                      : positions[`Position_${rank}-Support.png`]
+                  }
+                />
+              ) : player.role === "Mid" ? (
+                <img
+                  alt=""
+                  src={
                     rank === "Unranked"
                       ? positions[`Position_Iron-Mid.png`]
                       : positions[`Position_${rank}-Mid.png`]
-                  } />
-                ) : "" }
+                  }
+                />
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
       </div>
-      <div className="flex m-2 space-x-2">
-        <div className="flex-1 bg-slate-400 rounded">
+      <div className="flex m-2 space-x-2 items-center cursor-pointer">
+        <div className="w-32 bg-slate-400 rounded">
           <Autocomplete
             value={player.role || ROLES[0]}
             onChange={(event, newInputValue) => {
@@ -230,7 +299,7 @@ export default function PlayerCard({
                 { ...team[index], role: newInputValue },
                 ...team.slice(index + 1),
               ]);
-
+              setShowAnimation(false);
               socket.emit(color === "red" ? "redUpdate" : "blueUpdate", [
                 ...team.slice(0, index),
                 { ...team[index], role: newInputValue },
@@ -255,7 +324,7 @@ export default function PlayerCard({
                 { ...team[index], champion: newInputValue },
                 ...team.slice(index + 1),
               ]);
-
+              setShowAnimation(false);
               socket.emit(color === "red" ? "redUpdate" : "blueUpdate", [
                 ...team.slice(0, index),
                 { ...team[index], champion: newInputValue },
@@ -268,6 +337,17 @@ export default function PlayerCard({
             )}
           />
         </div>
+        {player.id === currentUser.id ? (
+          player.ready ? (
+            <ThumbUpIcon onClick={readyToggle} />
+          ) : (
+            <ThumbDownIcon onClick={readyToggle} />
+          )
+        ) : player.ready ? (
+          <div className="w-8 h-8 bg-green-400 rounded flex justify-center items-center" />
+        ) : (
+          <div className="w-8 h-8 bg-red-400 rounded flex justify-center items-center" />
+        )}
       </div>
     </div>
   );

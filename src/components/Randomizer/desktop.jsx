@@ -60,7 +60,7 @@ const Randomizer = ({
             type="button"
             onClick={handleRandomize}
             disabled={selected.length < 4 || selected.length % 2 !== 0}
-            className="bg-blue-600 w-40 p-2 rounded text-center cursor-pointer disabled:cursor-not-allowed hover:bg-blue-500"
+            className="bg-blue-600 w-40 p-2 rounded text-center cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-500 hover:bg-blue-500"
           >
             Randomize
           </button>
@@ -99,7 +99,7 @@ const Randomizer = ({
             </div>
           </div>
         )}
-        {dodgedPlayer && <div className="text-2xl text-center font-bold bg-gray-900 p-2 rounded">{`${dodgedPlayer} has dodged the match.`}</div>}
+        {dodgedPlayer && <div className="text-2xl text-center font-bold bg-gray-900 p-2 rounded">{`${dodgedPlayer} has dodged the match`}</div>}
         <RedBlueTeam
           redTeam={redTeam}
           setRedTeam={setRedTeam}
@@ -112,6 +112,7 @@ const Randomizer = ({
           socket={socket}
           showAnimation={showAnimation}
           setShowAnimation={setShowAnimation}
+          currentUser={currentUser}
         />
       </div>
       <div className="text-center h-12 mt-6">
