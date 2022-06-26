@@ -29,6 +29,7 @@ const Randomizer = ({
   setDodgeOpen,
   showAnimation,
   setShowAnimation,
+  dodgedPlayer
 }) => {
   return (
     <div className="flex flex-col items-center py-4 bg-cover min-h-screen min-w-full mt-16" style={{backgroundImage:`url(${background}`}}>
@@ -50,6 +51,7 @@ const Randomizer = ({
         redTeam={redTeam}
         setTracked={setDodged}
         handleRandomize={handleRandomize}
+        socket={socket}
       />
       {(user?.email === "sachinsunny2013@gmail.com" || user?.email === "thaker.parth.311@gmail.com") && (
         <div className="flex flex-col items-center mb-4">
@@ -97,6 +99,7 @@ const Randomizer = ({
             </div>
           </div>
         )}
+        {dodgedPlayer && <div className="text-2xl text-center font-bold bg-gray-900 p-2 rounded">{`${dodgedPlayer} has dodged the match.`}</div>}
         <RedBlueTeam
           redTeam={redTeam}
           setRedTeam={setRedTeam}

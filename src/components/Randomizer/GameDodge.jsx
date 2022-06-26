@@ -12,7 +12,8 @@ export default function GameDodge({
   blueTeam,
   redTeam,
   setTracked,
-  handleRandomize
+  handleRandomize,
+  socket
 }) {
 
     
@@ -62,7 +63,7 @@ export default function GameDodge({
       })
       .then(() => {
         setTracked(true);
-        handleRandomize();
+        socket.emit("dodged", loser.name);
       });
   };
 

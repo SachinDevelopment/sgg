@@ -15,7 +15,7 @@ const Stats = () => {
   }, []);
 
   if (!champs) return (
-  <div className="w-full h-96 flex justify-center items-center">
+  <div className="w-full h-96 flex justify-center items-center mt-20">
     <LoadingTrophy />
   </div>);
   

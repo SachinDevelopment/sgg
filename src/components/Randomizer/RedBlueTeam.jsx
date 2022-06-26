@@ -1,5 +1,4 @@
 import React from "react";
-import { calculateRatingChange } from "../../utils";
 import Team from "./Team";
 import { Button } from "react-bootstrap";
 
@@ -16,38 +15,6 @@ export default function RedBlueTeam({
   showAnimation,
   setShowAnimation
 }) {
-  const calculateTeamRating = () => {
-    let sum = 0;
-    let sum2 = 0;
-    redTeam.forEach((player) => (sum += player.rating));
-    blueTeam.forEach((player) => (sum2 += player.rating));
-    const sumAvg = sum / redTeam.length;
-    const sum2Avg = sum2 / blueTeam.length;
-    const [
-      blueWinRating,
-      blueLoseRating,
-      redWinRating,
-      redLoseRating,
-    ] = calculateRatingChange(sum2Avg, sumAvg);
-    return [
-      Math.round(sumAvg) || 0,
-      Math.round(sum2Avg) || 0,
-      blueWinRating,
-      blueLoseRating,
-      redWinRating,
-      redLoseRating,
-    ];
-  };
-
-  const [
-    redRating,
-    blueRating,
-    blueWinRating,
-    blueLoseRating,
-    redWinRating,
-    redLoseRating,
-  ] = calculateTeamRating();
-
   const handleOpenDialog = (winner) => () => {
     setWinner(winner);
     setOpen(true);

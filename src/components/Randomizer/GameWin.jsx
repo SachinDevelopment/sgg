@@ -90,7 +90,6 @@ export default function GameWin({
       .then(() => { 
         setTracked(true);
         setDodged(true);
-        handleRandomize();
        });
   };
 

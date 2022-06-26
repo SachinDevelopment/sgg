@@ -13,6 +13,7 @@ const Randomizer = ({ available, currentUser , socket}) => {
   const [dodged, setDodged] = useState(false);
   const [winOpen, setWinOpen] = useState(false);
   const [dodgeOpen, setDodgeOpen] = useState(false);
+  const [dodgedPlayer, setDodgedPlayer] = useState(false);
   const [winner, setWinner] = useState("");
   const { user } = useAuth0();
   const [showAnimation, setShowAnimation] = useState(false);
@@ -32,12 +33,13 @@ const Randomizer = ({ available, currentUser , socket}) => {
     if (!socket || !user) return;
     
     socket.on("randomized", (msg) => {
-      const { red, blue, state } = msg;
+      const { red, blue } = msg;
       setShowAnimation(true);
       setRedTeam(red);
       setBlueTeam(blue);
       setTracked(false);
       setDodged(false);
+      setDodgedPlayer(null);
     });
 
     socket.on("redUpdated", (msg) => {
@@ -56,6 +58,13 @@ const Randomizer = ({ available, currentUser , socket}) => {
       const { selected } = msg;
       setShowAnimation(false);
       setSelected(selected);
+    });
+
+    socket.on("playerDodged", (msg) => {
+      setShowAnimation(false);
+      setDodged(true);
+      setTracked(true);
+      setDodgedPlayer(msg);
     });
   }, [socket, setRedTeam, setBlueTeam, setSelected, user]);
 
@@ -122,6 +131,7 @@ const Randomizer = ({ available, currentUser , socket}) => {
       setDodgeOpen={setDodgeOpen}
       showAnimation={showAnimation}
       setShowAnimation={setShowAnimation}
+      dodgedPlayer={dodgedPlayer}
     />
   );
 };
