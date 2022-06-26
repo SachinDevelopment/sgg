@@ -54,6 +54,7 @@ export default function GameDodge({
         map,
         game_size: redTeam.length,
         losers,
+        loserName: loser.name,
         loserId,
         blue,
         red,

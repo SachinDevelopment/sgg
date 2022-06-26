@@ -22,10 +22,15 @@ const Randomizer = ({ available, currentUser , socket}) => {
     if (!user) return;
 
     axios.get(`${API_URL}/randomizer/state`).then(({ data }) => {
-      const { red, blue, selected } = data;
+      const { red, blue, selected, dodged, dodgerName } = data;
       setRedTeam(red);
       setBlueTeam(blue);
       setSelected(selected);
+      if(dodged){
+        setDodged(true);
+        setDodgedPlayer(dodgerName);
+        setTracked(true);
+      }
     });
   }, [setRedTeam, setBlueTeam, setSelected, user]);
 
